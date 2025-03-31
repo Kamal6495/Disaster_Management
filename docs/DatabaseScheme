@@ -1,0 +1,88 @@
+EonetCategory
+==================
+CREATE TABLE EONETResponse (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    link VARCHAR(500)
+);
+
+CREATE TABLE Category (
+    id VARCHAR(50) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    link VARCHAR(500),
+    description TEXT,
+    layers VARCHAR(500),
+    eonet_response_id INT,
+    FOREIGN KEY (eonet_response_id) REFERENCES EONETResponse(id)
+);
+
+
+
+GeoJSON
+=====================
+
+
+CREATE TABLE geojson_responses (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE features (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    geojson_response_id INT,
+    type VARCHAR(50) NOT NULL,
+    FOREIGN KEY (geojson_response_id) REFERENCES geojson_responses(id) ON DELETE CASCADE
+);
+
+CREATE TABLE properties (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    feature_id INT,
+    title VARCHAR(255),
+    description TEXT,
+    link TEXT,
+    closed DATETIME,
+    date DATETIME,
+    magnitude_value DOUBLE,
+    magnitude_unit VARCHAR(10),
+    FOREIGN KEY (feature_id) REFERENCES features(id) ON DELETE CASCADE
+);
+
+CREATE TABLE categories (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    property_id INT,
+    category_id VARCHAR(50),
+    title VARCHAR(255),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
+);
+
+CREATE TABLE sources (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    property_id INT,
+    source_id VARCHAR(50),
+    url TEXT,
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
+);
+
+CREATE TABLE geometry (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    feature_id INT,
+    type VARCHAR(50) NOT NULL,
+    FOREIGN KEY (feature_id) REFERENCES features(id) ON DELETE CASCADE
+);
+
+CREATE TABLE geometry_coordinates (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    geometry_id INT,
+    latitude DOUBLE,
+    longitude DOUBLE,
+    FOREIGN KEY (geometry_id) REFERENCES geometry(id) ON DELETE CASCADE
+);
+
+CREATE TABLE geometry_dates (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    property_id INT,
+    geometry_date DATETIME,
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
+);
+
