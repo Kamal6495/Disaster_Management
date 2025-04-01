@@ -1,19 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
-    showSection('home'); // Show home by default
+    showSection('home.php'); // Load home.php by default
 
     document.querySelectorAll(".nav-link").forEach(link => {
         link.addEventListener("click", function (event) {
-            event.preventDefault(); // Prevent default anchor behavior
-            const sectionId = this.getAttribute("href").substring(1);
-            showSection(sectionId);
+            event.preventDefault(); // Prevent page reload
+            const sectionFile = this.getAttribute("href"); // Get PHP file name
+            showSection(sectionFile);
         });
     });
 });
 
-function showSection(sectionId) {
-    document.querySelectorAll('.section').forEach(section => {
-        section.style.display = "none"; // Hide all sections
-    });
-
-    document.getElementById(sectionId).style.display = "block"; // Show the selected section
+function showSection(sectionFile) {
+    fetch(sectionFile)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("content").innerHTML = data;
+        })
+        .catch(error => {
+            document.getElementById("content").innerHTML = "<p>Error loading content.</p>";
+            console.error("Error fetching file:", error);
+        });
 }

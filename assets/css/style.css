@@ -1,40 +1,63 @@
-html, body {
-    height: 100%;
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
+    padding: 0;
     display: flex;
-    flex-direction: column;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #343a40;
+    color: white;
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-item {
+    margin-bottom: 10px;
+}
+
+.nav-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.nav-link:hover {
+    background: #495057;
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin-left: 270px; /* Space for sidebar */
-}
-
-.content {
-    flex: 1; /* Allows content to take full height */
-    display: flex;
-    flex-direction: column;
-}
-
-.section {
-    flex: 1; /* Ensures section takes available space */
-    display: none; /* Hide all sections by default */
+    margin-left: 270px;
     padding: 20px;
-    min-height: 100vh; /* Ensures the section covers full viewport */
+    flex-grow: 1;
 }
 
-.section.active {
-    display: flex; /* Show only the active section */
-    flex-direction: column;
+#content {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    min-height: 400px;
 }
 
 footer {
-    background: #333;
-    color: white;
+    margin-top: 20px;
     text-align: center;
     padding: 10px;
-    width: 100%;
-    margin-top: auto; /* Push footer to bottom */
+    background: #343a40;
+    color: white;
 }
