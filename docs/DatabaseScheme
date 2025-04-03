@@ -1,135 +1,24 @@
-User Database --USING 02-04-2025
-================================
-CREATE DATABASE users_db;
-USE users_db;
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    mobile VARCHAR(20) NOT NULL UNIQUE,
-    verified TINYINT(1) NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-EonetCategory===NOT Using
-==================
-CREATE TABLE EONETResponse (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    link VARCHAR(500)
-);
-
-CREATE TABLE Category (
-    id VARCHAR(50) PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    link VARCHAR(500),
-    description TEXT,
-    layers VARCHAR(500),
-    eonet_response_id INT,
-    FOREIGN KEY (eonet_response_id) REFERENCES EONETResponse(id)
-);
-
-
-
-GeoJSON Not USING
-=====================
-
-
-CREATE TABLE geojson_responses (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE features (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    geojson_response_id INT,
-    type VARCHAR(50) NOT NULL,
-    FOREIGN KEY (geojson_response_id) REFERENCES geojson_responses(id) ON DELETE CASCADE
-);
-
-CREATE TABLE properties (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    feature_id INT,
-    title VARCHAR(255),
-    description TEXT,
-    link TEXT,
-    closed DATETIME,
-    date DATETIME,
-    magnitude_value DOUBLE,
-    magnitude_unit VARCHAR(10),
-    FOREIGN KEY (feature_id) REFERENCES features(id) ON DELETE CASCADE
-);
-
-CREATE TABLE categories (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    property_id INT,
-    category_id VARCHAR(50),
-    title VARCHAR(255),
-    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
-);
-
-CREATE TABLE sources (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    property_id INT,
-    source_id VARCHAR(50),
-    url TEXT,
-    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
-);
-
-CREATE TABLE geometry (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    feature_id INT,
-    type VARCHAR(50) NOT NULL,
-    FOREIGN KEY (feature_id) REFERENCES features(id) ON DELETE CASCADE
-);
-
-CREATE TABLE geometry_coordinates (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    geometry_id INT,
-    latitude DOUBLE,
-    longitude DOUBLE,
-    FOREIGN KEY (geometry_id) REFERENCES geometry(id) ON DELETE CASCADE
-);
-
-CREATE TABLE geometry_dates (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    property_id INT,
-    geometry_date DATETIME,
-    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
-);
-
-
-
 ===================================================================================================
-CREATE DATABASE disaster_management;
-USE disaster_management;
+CREATE DATABASE disaster_db;
 
 CREATE TABLE disaster_alerts (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    type VARCHAR(255),
-    severity ENUM('low', 'moderate', 'severe'),
-    latitude FLOAT,
-    longitude FLOAT,
-    description TEXT,
-    source VARCHAR(255),
-    timestamp DATETIME
+    event_id VARCHAR(50) UNIQUE NULL,
+    title VARCHAR(255) NOT NULL,
+    type VARCHAR(100) NOT NULL,
+    source TEXT NOT NULL,
+    status VARCHAR(50) NULL,
+    timestamp DATETIME,
+    latitude DECIMAL(10, 6),
+    longitude DECIMAL(10, 6)
 );
+
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255),
-    email VARCHAR(255),
-    phone VARCHAR(20),
-    preferences JSON
-);
-
-CREATE TABLE user_notifications (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    disaster_id INT,
-    sent_at DATETIME,
-    status ENUM('sent', 'failed'),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (disaster_id) REFERENCES disaster_alerts(id)
+    email VARCHAR(255) UNIQUE NOT NULL,
+    mobile VARCHAR(15) UNIQUE NOT NULL,
+    otp INT NOT NULL,
+    verified BOOLEAN DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

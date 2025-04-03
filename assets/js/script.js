@@ -1,3 +1,5 @@
+let map; // Declare map only once globally
+
 document.addEventListener("DOMContentLoaded", function () {
   showSection("home.php"); // Load home.php by default
 
@@ -20,6 +22,12 @@ function showSection(sectionFile) {
     .then((response) => response.text())
     .then((data) => {
       contentDiv.innerHTML = data; // Load new content
+
+      // Check if the loaded content contains a map element
+      if (document.getElementById("map")) {
+        console.log("Map detected, initializing...");
+        initMap();
+      }
     })
     .catch((error) => {
       contentDiv.innerHTML = "<p>Error loading content.</p>";
@@ -27,10 +35,7 @@ function showSection(sectionFile) {
     });
 }
 
-//MAP SECTION
-// MAP SECTION
-
-let map;
+// Initialize Google Map
 function initMap() {
   const mapElement = document.getElementById("map");
 
@@ -39,11 +44,18 @@ function initMap() {
     return;
   }
 
-  map = new google.maps.Map(mapElement, {
-    center: { lat: 0, lng: 0 },
-    zoom: 2,
-  });
+  if (!map) { // Prevent re-initialization
+    map = new google.maps.Map(mapElement, {
+      center: { lat: 0, lng: 0 },
+      zoom: 2,
+    });
 
+    loadDisasterMarkers(); // Load markers after map initialization
+  }
+}
+
+// Fetch and add disaster markers
+function loadDisasterMarkers() {
   fetch("/Disaster_Management/database/get_disasters.php")
     .then((response) => {
       if (!response.ok) {

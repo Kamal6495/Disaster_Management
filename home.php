@@ -1,19 +1,20 @@
-<?php 
-include './assets/key/config.php'; 
-$google_maps_api_key = GOOGLE_MAPS_API_KEY; // Assuming it's defined in config.php
-?>
 <div class="container">
     <h2>Disaster Alert Map</h2>
     <div id="map" style="height: 500px; width: 100%;"></div>
 </div>
+<script src="./assets/js/script.js"></script>
+<!-- <hr style="height: 20px; background: #000; border: none; margin: 20px 0;"> Thick horizontal line -->
 
 <script>
-    if (typeof initMap === "function") {
-        initMap(); 
-    } else {
-        console.error("Google Maps script not loaded.");
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initMap === "function") {
+            initMap(); 
+        } else {
+            console.error("Google Maps script not loaded or initMap is undefined.");
+        }
+    });
 </script>
+
 
 
 <!-- Horizontal Line Separator -->

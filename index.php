@@ -13,7 +13,7 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap" async defer></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap" async defer></script> -->
 
 </head>
 
@@ -25,7 +25,7 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="relief.php">Relief</a></li>
-            <li class="nav-item"><a class="nav-link" href="notifications.php">Get Notifications</a></li>
+            <li ><a class="nav-link" href="notifications.php">Get Notifications</a></li>
             <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
             <li class="nav-item"><a class="nav-link" href="info.php">Information</a></li>
             <li class="nav-item"><a class="nav-link" href="data.php">Data</a></li>
@@ -36,8 +36,10 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
     <!-- Content Section -->
     <div id="content">
         <div class="loading-spinner"></div> <!-- Default loader before home.php loads -->
+        <?php include 'home.php'; ?>  <!-- Load home.php initially -->
     </div>
 
+    
     <script
         src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap&loading=async"
         async></script>
