@@ -1,65 +1,233 @@
+/* General Styling */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     display: flex;
+    animation: fadeIn 1s ease-in-out;
 }
 
+/* Sidebar Styling */
 .sidebar {
     width: 250px;
-    height: 100vh;
-    background: #28a745; /* Green background */
-    color: #001f3f; /* Dark blue text */
+    background: #343a40;
+    color: white;
     padding: 20px;
+    height: 100vh;
     position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    animation: slideInLeft 0.8s ease-in-out;
 }
 
 .sidebar h4 {
     text-align: center;
     margin-bottom: 20px;
-    color: #001f3f; /* Dark blue text */
+    opacity: 0;
+    animation: fadeInUp 1s ease-in-out forwards;
 }
 
-.nav {
-    list-style: none;
-    padding: 0;
+/* Sidebar Navigation */
+.sidebar ul.nav {
+    padding-left: 0;
 }
 
-.nav-item {
-    margin-bottom: 10px;
-}
-
-.nav-link {
-    display: block;
-    color: #001f3f !important; /* Dark blue text */
-    text-decoration: none;
+.sidebar .nav-link {
+    color: white;
     padding: 10px;
+    display: block;
     border-radius: 5px;
-    transition: background 0.3s;
+    transition: background 0.3s, transform 0.2s;
+    text-decoration: none;
 }
 
-.nav-link:hover {
-    background: #218838; /* Slightly darker green */
-    color: white !important;
+.sidebar .nav-link:hover {
+    background: #007bff;
+    transform: translateX(5px);
 }
 
-.wrapper {
-    margin-left: 270px;
-    padding: 20px;
-    flex-grow: 1;
-}
-
+/* Content Section */
 #content {
-    background: #f8f9fa;
+    position: relative;
+    left: 250px; /* Match sidebar width */
+    width: calc(100% - 250px);
     padding: 20px;
-    border-radius: 5px;
-    min-height: 400px;
+    min-height: 100vh;
+    background-color: white;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
 }
 
-footer {
-    margin-top: 20px;
+/* Header Styling */
+.header {
     text-align: center;
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeInDown 1s ease-in-out forwards;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.header .tagline {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Map and Info Sections */
+#map {
+    width: 100%;
+    height: 500px;
+    margin-top: 20px;
+}
+
+/* Card Grid */
+.row.g-4 {
+    margin-top: 20px;
+}
+
+/* Card Styling */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-in-out forwards;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Image */
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* Card Content */
+.card-body {
+    padding: 15px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Button Styling */
+.card .btn {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: block;
+    margin-top: auto;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.card .btn:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
     padding: 10px;
     background: #343a40;
     color: white;
+    border-radius: 5px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-in-out forwards;
+}
+
+/* ------------------- */
+/* 🔥 Mobile Responsiveness 🔥 */
+/* ------------------- */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 10px;
+        text-align: center;
+    }
+
+    #content {
+        left: 0;
+        width: 100%;
+    }
+
+    .sidebar ul.nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar .nav-link {
+        padding: 8px 15px;
+        margin: 5px;
+    }
+}
+
+/* ------------------- */
+/* 🔥 Keyframe Animations 🔥 */
+/* ------------------- */
+
+/* Fade In */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Fade In Up */
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade In Down */
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Slide In from Left */
+@keyframes slideInLeft {
+    0% { opacity: 0; transform: translateX(-100px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Spin Animation for Loader */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
