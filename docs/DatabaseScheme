@@ -1,6 +1,7 @@
 ===================================================================================================
 CREATE DATABASE disaster_db;
-
+USE DATABASE disaster_db;
+======================================================================================================
 CREATE TABLE disaster_alerts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_id VARCHAR(50) UNIQUE NULL,
@@ -12,7 +13,7 @@ CREATE TABLE disaster_alerts (
     latitude DECIMAL(10, 6),
     longitude DECIMAL(10, 6)
 );
-
+======================================================================================================
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
