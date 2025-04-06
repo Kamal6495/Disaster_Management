@@ -1,21 +1,67 @@
 <div class="container">
-    <h2>Disaster Alert Map</h2>
-    <div id="map" style="height: 500px; width: 100%;"></div>
-</div>
-<script src="./assets/js/script.js"></script>
-<!-- <hr style="height: 20px; background: #000; border: none; margin: 20px 0;"> Thick horizontal line -->
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if (typeof initMap === "function") {
-            initMap(); 
-        } else {
-            console.error("Google Maps script not loaded or initMap is undefined.");
+    <!-- Heading and Logo Row -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">Disaster Alert Map</h2>
+        <img src="images/logo.jpg" alt="Logo" style="width: 3cm; height: 3cm; object-fit: contain;">
+    </div>
+
+    <!-- Gradient Line -->
+    <hr style="height: 4px; background: linear-gradient(to right, #ff5252, #ffca28, #66bb6a); border: none; margin: 10px 0;">
+
+    <!-- Dynamic Marquee -->
+    <marquee behavior="scroll" direction="left" scrollamount="6"
+        style="color: #b71c1c; font-weight: bold; padding: 8px 0;
+           background: #fff3e0; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <?php
+        // DB config
+        $conn = new mysqli("localhost", "root", "", "disaster_db");
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
-    });
-</script>
+
+        // Fetch 10 latest alerts
+        $sql = "SELECT title, type FROM disaster_alerts ORDER BY timestamp DESC LIMIT 10";
+        $result = $conn->query($sql);
+
+        // Icons
+        $icons = [
+            'earthquake' => '🌍',
+            'flood' => '🌊',
+            'wildfire' => '🔥',
+            'hurricane' => '🌪',
+            'volcano' => '🌋',
+            'tsunami' => '🌊',
+            'storm' => '⛈️',
+            'blizzard' => '❄️',
+            'rain' => '☔',
+            'landslide' => '🪨',
+            'default' => '⚠️'
+        ];
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $type = strtolower($row['type']);
+                $icon = $icons[$type] ?? $icons['default'];
+                echo "{$icon} {$row['title']} | ";
+            }
+        } else {
+            echo "✅ No current disaster alerts.";
+        }
+        $conn->close();
+        ?>
+    </marquee>
 
 
+    <!-- Map Container -->
+    <div id="map" style="height: 500px; width: 100%; margin-top: 20px;"></div>
+
+</div>
+
+
+
+<!-- Load Custom Script After API -->
+<script src="./assets/js/script.js"></script>
 
 <!-- Horizontal Line Separator -->
 <hr style="border: none; height: 20px; background-color: #333; margin: 40px 0;">

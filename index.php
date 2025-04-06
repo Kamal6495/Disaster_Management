@@ -22,12 +22,16 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
         <h4>Disaster Management</h4>
+        
+
+
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="relief.php">Relief</a></li>
             <li ><a class="nav-link" href="notifications.php">Get Notifications</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" href="info.php">Information</a></li>
+            <li class="nav-item"><a class="nav-link" href="contacts.php">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="info.php">Knowledge</a></li> 
+             <!-- //nedd to be modified every where -->
             <li class="nav-item"><a class="nav-link" href="data.php">Data</a></li>
             <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
         </ul>
@@ -44,7 +48,7 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
         src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap&loading=async"
         async></script>
 
-    <!-- Load Custom Script After API -->
+    Load Custom Script After API
     <script src="./assets/js/script.js"></script>
 
 </body>
