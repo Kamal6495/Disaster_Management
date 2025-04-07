@@ -48,8 +48,69 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
         src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap&loading=async"
         async></script>
 
-    Load Custom Script After API
+    <!-- Load Custom Script After API -->
     <script src="./assets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).on("click", "#sendOtp", function () {
+            let email = $("#email").val();
+            let mobile = $("#mobile").val();
+
+            $.ajax({
+                type: "POST",
+                url: "ajax/otp-handler.php",
+                data: { send_otp: true, email: email, mobile: mobile },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === "OTP_SENT") {
+                        $("#otpSection").removeClass("d-none");
+                        $("#sendOtp").hide();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Failed to send OTP. Please check the console.");
+                }
+            });
+        });
+
+        $(document).on("click", "#verifyOtp", function () {
+            let otp = $("#otp").val();
+
+            $.ajax({
+                type: "POST",
+                url: "ajax/otp-handler.php",
+                data: {
+                    verify_otp: true,
+                    otp: otp,
+                    email: $("#email").val(),
+                    mobile: $("#mobile").val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === "OTP_VERIFIED") {
+                        $("body").css("background", "rgba(0,0,0,0.8)");
+                        $("#mainContent").hide();
+                        $("#successPopup").removeClass("d-none");
+                        setTimeout(function () {
+                            window.location.href = "index.php?page=home";
+                        }, 2000);
+                    } else {
+                        alert("Invalid OTP. Try again.");
+                    }
+                }
+            });
+        });
+
+        // Sidebar toggle for mobile
+        document.getElementById("menuToggle").addEventListener("click", function () {
+            document.getElementById("sidebar").classList.toggle("active");
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

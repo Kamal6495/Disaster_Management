@@ -30,10 +30,11 @@
 </div>
 
 
-
+<!-- 
 <script>
     $(document).ready(function () {
         $("#sendOtp").click(function () {
+            
             const email = $("#email").val();
             const mobile = $("#mobile").val();
 
@@ -44,11 +45,12 @@
 
             $.ajax({
                 type: "POST",
-                url: "ajax/otp-handler.php",
+                url: "/ajax/otp-handler.php",
                 data: { send_otp: true, email: email, mobile: mobile },
                 dataType: "json",
                 success: function (response) {
                     if (response.status === "OTP_SENT") {
+                        
                         $("#otpSection").removeClass("d-none");
                         $("#sendOtp").hide();
                         console.log("OTP sent to email and mobile.");
@@ -75,7 +77,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "ajax/otp-handler.php",
+                url: "/ajax/otp-handler.php",
                 data: { verify_otp: true, email: email, mobile: mobile, otp: otp },
                 dataType: "json",
                 success: function (response) {
@@ -104,4 +106,4 @@
             });
         });
     });
-</script>
+</script> -->

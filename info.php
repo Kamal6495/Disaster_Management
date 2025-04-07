@@ -6,17 +6,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
             margin: 0;
-            padding: 0;
-            background: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            background: #f2f2f2;
         }
 
         .header {
-            background-color: #2d3e50;
-            color: white;
+            background: linear-gradient(to right, #007991, #78ffd6);
             padding: 30px;
             text-align: center;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .header p {
+            font-size: 18px;
+            margin-top: 8px;
         }
 
         .container {
@@ -24,39 +34,48 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 25px;
-            padding: 40px;
+            padding: 50px 20px;
         }
 
         .card {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(135deg, #ffffff, #f3f9ff);
+            width: 330px;
+            border-radius: 18px;
             padding: 25px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
             cursor: pointer;
         }
 
         .card:hover {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
             transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
         }
 
         .card h2 {
-            color: #2d3e50;
+            margin-top: 0;
             font-size: 22px;
-            margin-bottom: 10px;
+            color: #2c3e50;
         }
 
         .card ul {
-            padding-left: 18px;
-            color: #444;
+            padding-left: 20px;
             font-size: 15px;
+            color: #333;
             line-height: 1.6;
         }
 
         .card ul li {
             margin-bottom: 10px;
+        }
+
+        .footer {
+            background: #2d3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
         }
     </style>
 </head>
@@ -69,7 +88,6 @@
 
     <div class="container">
 
-        <!-- Scenario: Tsunami -->
         <div class="card">
             <h2>Tsunami Preparedness</h2>
             <ul>
@@ -81,7 +99,6 @@
             </ul>
         </div>
 
-        <!-- Scenario: Wildfire Awareness -->
         <div class="card">
             <h2>Wildfire Awareness & Response</h2>
             <ul>
@@ -93,7 +110,6 @@
             </ul>
         </div>
 
-        <!-- Scenario: Earthquake Safety -->
         <div class="card">
             <h2>Earthquake Safety Measures</h2>
             <ul>
@@ -105,7 +121,6 @@
             </ul>
         </div>
 
-        <!-- Scenario: Flood Risk Awareness -->
         <div class="card">
             <h2>Flood Risk & Awareness</h2>
             <ul>
@@ -117,7 +132,6 @@
             </ul>
         </div>
 
-        <!-- Scenario: Public Safety Platform Overview -->
         <div class="card">
             <h2>Public Awareness & Safety Platform</h2>
             <ul>
@@ -129,7 +143,6 @@
             </ul>
         </div>
 
-        <!-- Scenario: Historical Data Analysis -->
         <div class="card">
             <h2>Historical Data & Trend Analysis</h2>
             <ul>
@@ -142,6 +155,10 @@
             </ul>
         </div>
 
+    </div>
+
+    <div class="footer">
+        &copy; 2025 Disaster Knowledge Portal | Empowering Preparedness & Resilience
     </div>
 
 </body>
