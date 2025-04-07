@@ -1,3 +1,6 @@
+
+
+
 <div class="container">
 
     <!-- Heading and Logo Row -->
@@ -26,7 +29,7 @@
         }
 
         // Fetch latest 10 GDACS alerts
-        $sql = "SELECT title, description, country, event_type, link FROM disaster_gdacs ORDER BY pubDate LIMIT 10";
+        $sql = "SELECT title, description, country, event_type, link FROM disaster_gdacs ORDER BY pubDate DESC LIMIT 10";
         $result = $conn->query($sql);
 
         // Event type icons
@@ -82,6 +85,110 @@
 <!-- Horizontal Line Separator -->
 <hr style="border: none; height: 20px; background-color: #333; margin: 40px 0;">
 
+<style>
+  .wrapper {
+    padding: 3rem 1rem;
+    background: linear-gradient(to right, #e0f7fa, #fefefe);
+  }
+
+  .header {
+    margin-bottom: 3rem;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+    color: #555;
+    font-style: italic;
+  }
+
+  .card {
+    height: 100%;
+    margin: 10px;
+    padding: 4px;
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, limegreen, #1e90ff, crimson);
+    background-size: 200% 200%;
+    animation: cardGradient 8s ease infinite;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+  margin-bottom: 20px !important;
+}
+
+
+  @keyframes cardGradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-body h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #2c3e50;
+    font-weight: bold;
+  }
+
+  .btn-primary {
+    align-self: flex-start;
+    background-color: #007bff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 768px) {
+    .card img {
+      height: 180px;
+    }
+
+    .card-body h3 {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+
+
+
 <div class="wrapper">
     <!-- INFORMATION SECTION -->
     <div class="container">
@@ -90,7 +197,7 @@
             <h1>Understanding Disasters</h1>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 mb-4">
             <div class="col-md-6">
                 <div class="card">
                     <img src="./images/tornado.jpg" alt="Tornado">
@@ -113,7 +220,7 @@
             </div>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 mb-4">
             <div class="col-md-6">
                 <div class="card">
                     <img src="./images/tsunami.jpg" alt="Tsunami">
@@ -134,7 +241,7 @@
             </div>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 mb-4">
             <div class="col-md-6">
                 <div class="card">
                     <img src="./images/flood.jpg" alt="Flood">
@@ -155,7 +262,7 @@
             </div>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 mb-4">
             <div class="col-md-6">
                 <div class="card">
                     <img src="./images/fpre.jpg" alt="Financial Preparedness">
