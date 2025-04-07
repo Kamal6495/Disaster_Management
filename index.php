@@ -4,37 +4,54 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disaster Management Platform</title>
 
+    <!-- Stylesheets -->
+     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap" async defer></script> -->
-
+    <!-- <link rel="stylesheet" href="assets/css/styleN.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
-        <h4>Disaster Management</h4>
-        
+        <!-- Top Section -->
+        <div class="sidebar-header">
+        <img src="images/disaster_logo.jpg" alt="Avatar" class="avatar" style="width: 4cm; height: 4cm;">
 
+            <h5 style="margin-top: 10px;">Disaster Management</h5>
 
-        <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="relief.php">Relief</a></li>
-            <li ><a class="nav-link" href="notifications.php">Get Notifications</a></li>
-            <li class="nav-item"><a class="nav-link" href="contacts.php">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" href="info.php">Knowledge</a></li> 
-             <!-- //nedd to be modified every where -->
-            <li class="nav-item"><a class="nav-link" href="data.php">Data</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+            <!-- Theme Toggle Button -->
+            <div class="theme-toggle" title="Toggle Theme">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav flex-column mt-4">
+            <li class="nav-item"><a class="nav-link" href="home.php"><i class="fa fa-home"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="relief.php"><i class="fa fa-hand-holding-heart"></i> Relief</a></li>
+            <li class="nav-item"><a class="nav-link" href="notifications.php"><i class="fa fa-bell"></i> Get Notifications</a></li>
+            <li class="nav-item"><a class="nav-link" href="contacts.php"><i class="fa fa-address-book"></i> Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="info.php"><i class="fa fa-book"></i> Knowledge</a></li>
+            <li class="nav-item"><a class="nav-link" href="data.php"><i class="fa fa-database"></i> Data</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.php"><i class="fa fa-info-circle"></i> About</a></li>
         </ul>
+
+        <!-- Bottom Info Card -->
+        <div class="create-teams-card">
+            <i class="fa fa-users"></i>
+            <h6>Create Teams</h6>
+            <p style="font-size: 12px;">Increase your speed with more members</p>
+        </div>
     </nav>
 
     <!-- Content Section -->
@@ -43,10 +60,45 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
         <?php include 'home.php'; ?>  <!-- Load home.php initially -->
     </div>
 
-    
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap&loading=async"
-        async></script>
+    <!-- Google Maps Script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap&loading=async" async></script>
+
+    <!-- Custom JS for Theme Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.querySelector('.theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const body = document.body;
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+                const isLight = body.classList.contains('light-mode');
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+                // Update icon
+                if (isLight) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            });
+        });
+    </script>
+
+
+
+
+
 
     <!-- Load Custom Script After API -->
     <script src="./assets/js/script.js"></script>
@@ -105,13 +157,35 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
             });
         });
 
+
+
+        $(document).on("click", "#broadcastBtn" ,function () {
+        console.log("prashant");
+        $.ajax({
+           
+            url: "send-broadcast.php",
+            type: "GET",
+            dataType: "text",
+            success: function (data) {
+                console.log("Broadcast Response:", data);
+                alert("Broadcast sent:\n" + data);
+            },
+            error: function (xhr, status, error) {
+                console.error("Broadcast AJAX Error:", xhr.responseText);
+                alert("Failed to send broadcast. Check console.");
+            }
+        });
+    });
+
         // Sidebar toggle for mobile
         document.getElementById("menuToggle").addEventListener("click", function () {
             document.getElementById("sidebar").classList.toggle("active");
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 
+   
 </body>
 
 </html>

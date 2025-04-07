@@ -10,47 +10,63 @@
     <hr style="height: 4px; background: linear-gradient(to right, #ff5252, #ffca28, #66bb6a); border: none; margin: 10px 0;">
 
     <!-- Dynamic Marquee -->
-    <marquee behavior="scroll" direction="left" scrollamount="6"
+    <marquee
+        behavior="scroll"
+        direction="left"
+        scrollamount="6"
+        onmouseover="this.stop();"
+        onmouseout="this.start();"
         style="color: #b71c1c; font-weight: bold; padding: 8px 0;
-           background: #fff3e0; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+           background: #fff3e0; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;">
         <?php
         // DB config
-        $conn = new mysqli("localhost", "root", "", "disaster_db");
+        $conn = new mysqli("localhost", "root", "root", "disaster_db");
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Fetch 10 latest alerts
-        $sql = "SELECT title, type FROM disaster_alerts ORDER BY timestamp DESC LIMIT 10";
+        // Fetch latest 10 GDACS alerts
+        $sql = "SELECT title, description, country, event_type, link FROM disaster_gdacs ORDER BY pubDate LIMIT 10";
         $result = $conn->query($sql);
 
-        // Icons
+        // Event type icons
         $icons = [
-            'earthquake' => '🌍',
-            'flood' => '🌊',
-            'wildfire' => '🔥',
-            'hurricane' => '🌪',
-            'volcano' => '🌋',
-            'tsunami' => '🌊',
-            'storm' => '⛈️',
-            'blizzard' => '❄️',
-            'rain' => '☔',
-            'landslide' => '🪨',
-            'default' => '⚠️'
+            'Earthquake' => '🌍',
+            'Flood' => '🌊',
+            'Wildfire' => '🔥',
+            'Drought' => '🌾',
+            'Storm' => '⛈️',
+            'Volcano' => '🌋',
+            'Tsunami' => '🌊',
+            'Blizzard' => '❄️',
+            'Landslide' => '🪨',
+            'Rain' => '☔',
+            'Unknown' => '⚠️'
         ];
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $type = strtolower($row['type']);
-                $icon = $icons[$type] ?? $icons['default'];
-                echo "{$icon} {$row['title']} | ";
+                $event_type = $row['event_type'];
+                $icon = $icons[$event_type] ?? $icons['Unknown'];
+                $title = htmlspecialchars($row['title']);
+                $desc = htmlspecialchars($row['description']);
+                $country = htmlspecialchars($row['country']);
+                $link = htmlspecialchars($row['link']);
+
+                echo "<a href='$link' target='_blank' style='text-decoration:none; color:inherit; margin-right: 20px;'>
+                    $icon <strong>[$event_type]</strong> $title - <em>$desc</em>
+                </a> | ";
             }
         } else {
             echo "✅ No current disaster alerts.";
         }
+
         $conn->close();
         ?>
     </marquee>
+
+
+
 
 
     <!-- Map Container -->

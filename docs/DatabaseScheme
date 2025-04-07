@@ -1,6 +1,6 @@
 ===================================================================================================
 CREATE DATABASE disaster_db;
-USE DATABASE disaster_db;
+USE disaster_db;
 ======================================================================================================
 CREATE TABLE disaster_alerts (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -23,3 +23,23 @@ CREATE TABLE users (
     verified BOOLEAN DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+========================================================================================================
+
+CREATE TABLE disaster_gdacs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title TEXT,
+    description TEXT,
+    link TEXT,
+    pubDate DATETIME,
+    event_id VARCHAR(50),
+    alert_level VARCHAR(20),
+    event_type VARCHAR(10),
+    country VARCHAR(100),
+    latitude DOUBLE,
+    longitude DOUBLE,
+    icon_url TEXT
+);
+
+
+

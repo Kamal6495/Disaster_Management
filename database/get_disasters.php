@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 // Database Connection
 $host = "localhost";
 $username = "root";
-$password = "";
+$password = "root";
 $dbname = "disaster_db";
 
 $conn = new mysqli($host, $username, $password, $dbname);

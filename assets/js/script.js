@@ -1,10 +1,11 @@
 let map1; // Declare map only once globally
+const markers = [];
+const emojiCache = {};
+// const sharedInfoWindow1 = new google.maps.InfoWindow(); // ✅ MOVE THIS UP
 
-showSection("home.php");  // Load home.php by default
+showSection("home.php"); // Load home.php by default
 
 document.addEventListener("DOMContentLoaded", function () {
-
-
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", function (event) {
       event.preventDefault(); // Prevent page reload
@@ -37,6 +38,7 @@ function showSection(sectionFile) {
     });
 }
 
+/**main.js:171 As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide. */
 // Initialize Google Map
 function initMap() {
   const mapElement = document.getElementById("map");
@@ -48,21 +50,59 @@ function initMap() {
 
   // if (!map) { // Prevent re-initialization
   map1 = new google.maps.Map(mapElement, {
-      center: { lat: 0, lng: 0 },
-      zoom: 2,
-    });
+    center: { lat: 22.9734, lng: 78.6569 },
+    zoom: 5,
+  });
 
-    loadDisasterMarkers(); // Load markers after map initialization
+  loadDisasterMarkers(); // Load markers after map initialization
   // }
 }
 
-// Fetch and add disaster markers
+function getDisasterEmoji(type) {
+  const icons = {
+    Earthquake: "🌍",
+    "Sea and Lake Ice": "🌊",
+    Wildfires: "🔥",
+    Drought: "🌾",
+    Storm: "⛈️",
+    Volcanoes: "🌋",
+    Tsunami: "🌊",
+    Blizzard: "❄️",
+    Landslide: "🪨",
+    Rain: "☔",
+  };
+  return icons[type] || "❗";
+}
+
+function emojiToDataUrlCached(emoji) {
+  if (emojiCache[emoji]) return emojiCache[emoji];
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext("2d");
+  ctx.font = "48px serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(emoji, canvas.width / 2, canvas.height / 2);
+
+  const dataUrl = canvas.toDataURL();
+  emojiCache[emoji] = dataUrl;
+  return dataUrl;
+}
+
+function getIconSize(zoom) {
+  if (zoom >= 10) return 32;
+  if (zoom >= 7) return 24;
+  if (zoom >= 4) return 18;
+  return 14;
+}
+
 function loadDisasterMarkers() {
   fetch("/Disaster_Management/database/get_disasters.php")
     .then((response) => {
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
-      }
       return response.json();
     })
     .then((data) => {
@@ -71,31 +111,58 @@ function loadDisasterMarkers() {
         return;
       }
 
+      const currentZoom = map1.getZoom();
+      const iconSize = getIconSize(currentZoom);
+
       data.forEach((disaster) => {
-        if (!disaster.latitude || !disaster.longitude) {
-          console.warn("Skipping invalid disaster data:", disaster);
-          return;
-        }
+        if (!disaster.latitude || !disaster.longitude) return;
+
+        const emoji = getDisasterEmoji(disaster.type);
+        const emojiIconUrl = emojiToDataUrlCached(emoji);
 
         const marker = new google.maps.Marker({
           position: {
             lat: parseFloat(disaster.latitude),
             lng: parseFloat(disaster.longitude),
           },
-          map: map1, // Ensure `map1` is defined elsewhere in your code
+          map: map1,
           title: disaster.title,
+          icon: {
+            url: emojiIconUrl,
+            scaledSize: new google.maps.Size(iconSize, iconSize),
+          },
         });
 
+        // ✅ Use a fresh InfoWindow per marker
         const infoWindow = new google.maps.InfoWindow({
           content: `
-            <h3>${disaster.title}</h3>
-            <p>Type: ${disaster.type}</p>
-            <p><a href="${disaster.source}" target="_blank">More Info</a></p>
-          `,
+                  <h3>${disaster.title}</h3>
+                 <p>Type: ${disaster.type} ${emoji}</p>
+                     <p><a href="${disaster.source}" target="_blank">More Info</a></p>
+  `,
         });
 
         marker.addListener("click", () => {
           infoWindow.open(map1, marker);
+        });
+
+        markers.push({ marker, emojiIconUrl });
+      });
+
+      // Marker clustering
+      new markerClusterer.MarkerClusterer({
+        map: map1,
+        markers: markers.map((m) => m.marker),
+      });
+
+      // Adjust marker size on zoom
+      map1.addListener("zoom_changed", () => {
+        const newSize = getIconSize(map1.getZoom());
+        markers.forEach(({ marker, emojiIconUrl }) => {
+          marker.setIcon({
+            url: emojiIconUrl,
+            scaledSize: new google.maps.Size(newSize, newSize),
+          });
         });
       });
     })
@@ -103,4 +170,3 @@ function loadDisasterMarkers() {
       console.error("Error fetching disaster data:", error);
     });
 }
-/**main.js:171 As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide. */

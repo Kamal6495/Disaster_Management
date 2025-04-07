@@ -1,0 +1,18 @@
+localhost/Disaster_Management/
+
+http://localhost/Disaster_Management/database/fetch_nasa_data.php
+
+http://localhost/Disaster_Management/database/get_disasters.php
+
+localhost/phpmyadmin
+
+
+sudo systemctl stop apache2    	
+sudo systemctl stop mysql
+
+
+sudo systemctl start apache2    	
+sudo systemctl start mysql  		
+
+sudo systemctl status apache2
+sudo systemctl status mysql

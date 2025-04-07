@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // DB connection
-$conn = new mysqli("localhost", "root", "", "disaster_db");
+$conn = new mysqli("localhost", "root", "root", "disaster_db");
 if ($conn->connect_error) {
     die(json_encode(["status" => "ERROR", "message" => "DB connection failed."]));
 }
