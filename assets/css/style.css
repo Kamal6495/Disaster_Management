@@ -1,7 +1,7 @@
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #ffe5eb, #d9fce8); /* Teal to Aqua gradient */
     margin: 0;
     padding: 0;
     display: flex;
@@ -168,11 +168,12 @@ body {
 
 /* Theme Base (Light Mode) */
 body.light-mode {
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #f8dcef, #c8ffdf); /* Teal to Aqua gradient */
     color: #000;
 }
 body.light-mode .sidebar {
-    background: #ffffff;
+    background: linear-gradient(to right, #75ff87, #46daff); /* Teal to Aqua gradient */
+    /* background: #ffffff; */
     color: #222;
 }
 body.light-mode .sidebar .nav-link {
@@ -183,7 +184,7 @@ body.light-mode .sidebar .nav-link:hover {
 }
 body.light-mode .sidebar-header {
     background: #f0f0f0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #cccccc;
 }
 body.light-mode .create-teams-card {
     background: #f8f9fa;
