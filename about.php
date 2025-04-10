@@ -207,49 +207,49 @@
         <div class="developer-section">
             <div class="developer-card">
                 <img src="dev1.jpg" alt="Developer 1" class="dev-photo">
-                <h3>👨‍💻 John Doe</h3>
-                <p><strong>Branch:</strong> Computer Science</p>
-                <p><strong>College:</strong> ABC Institute of Technology</p>
+                <h3>👨‍💻 Kamal Kant Singh</h3>
+                <p><strong>Branch:</strong> Computer Science and Engineering</p>
+                <p><strong>College:</strong> MNNIT Allahabad</p>
                 <p><i class="fa fa-envelope"></i>
-                    <a href="mailto:johndoe@gmail.com">johndoe@gmail.com</a>
+                    <a href="mailto:kamal.2024cs12@mnnit.ac.in">kamal.2024cs12@mnnit.ac.in</a>
                 </p>
                 <p><i class="fa fa-linkedin"></i>
-                    <a href="https://www.linkedin.com/in/johndoe" target="_blank">linkedin.com/in/johndoe</a>
+                    <a href="https://www.linkedin.com/in/kamal6495" target="_blank">linkedin.com/in/johndoe</a>
                 </p>
                 <p><i class="fa fa-github"></i>
-                    <a href="https://github.com/johndoe" target="_blank">github.com/johndoe</a>
+                    <a href="https://github.com/kamal6495" target="_blank">github.com/kamal6495</a>
                 </p>
             </div>
 
             <div class="developer-card">
-                <img src="dev2.jpg" alt="Developer 2" class="dev-photo">
-                <h3>👩‍💻 Jane Smith</h3>
-                <p><strong>Branch:</strong> IT</p>
-                <p><strong>College:</strong> XYZ University</p>
+                <img src="dev2.jpeg" alt="Developer 2" class="dev-photo">
+                <h3>👩‍💻 Prashant Kumar Singh</h3>
+                <p><strong>Branch:</strong> Computer Science and Engineering</p>
+                <p><strong>College:</strong> MNNIT Allahabad</p>
                 <p><i class="fa fa-envelope"></i>
-                    <a href="mailto:janesmith@gmail.com">janesmith@gmail.com</a>
+                    <a href="mailto:prashant2024cs15@mnnit.ac.in">prashant2024cs15@mnnit.ac.in</a>
                 </p>
                 <p><i class="fa fa-linkedin"></i>
-                    <a href="https://www.linkedin.com/in/janesmith" target="_blank">linkedin.com/in/janesmith</a>
+                    <a href="https://www.linkedin.com/in/prashant-kumar-singh-972041306/" target="_blank">prashant-kumar-singh-972041306</a>
                 </p>
                 <p><i class="fa fa-github"></i>
-                    <a href="https://github.com/janesmith" target="_blank">github.com/janesmith</a>
+                    <a href="https://github.com/PrashantA7985" target="_blank">github.com/PrashantA7985</a>
                 </p>
             </div>
 
             <div class="developer-card">
                 <img src="dev3.jpg" alt="Developer 3" class="dev-photo">
-                <h3>👨‍💻 Alex Ray</h3>
-                <p><strong>Branch:</strong> Software Engineering</p>
-                <p><strong>College:</strong> LMN College</p>
+                <h3>👨‍💻 Shashank Tiwari</h3>
+                <p><strong>Branch:</strong> Computer Science and Engineering</p>
+                <p><strong>College:</strong> MNNIT Allahabad</p>
                 <p><i class="fa fa-envelope"></i>
-                    <a href="mailto:alexray@gmail.com">alexray@gmail.com</a>
+                    <a href="mailto:shashank2024@mnnit.ac.in">shashank2024@mnnit.ac.in</a>
                 </p>
                 <p><i class="fa fa-linkedin"></i>
-                    <a href="https://www.linkedin.com/in/alexray" target="_blank">linkedin.com/in/alexray</a>
+                    <a href="https://www.linkedin.com/in/tshashank620" target="_blank">linkedin.com/in/tshashank620</a>
                 </p>
                 <p><i class="fa fa-github"></i>
-                    <a href="https://github.com/alexray" target="_blank">github.com/alexray</a>
+                    <a href="https://github.com/Shashank14081997" target="_blank">github.com/Shashank14081997</a>
                 </p>
             </div>
         </div>

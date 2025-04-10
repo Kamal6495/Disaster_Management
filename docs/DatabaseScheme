@@ -24,7 +24,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-========================================================================================================
+=======================================================================================================
 
 CREATE TABLE disaster_gdacs (
     id INT AUTO_INCREMENT PRIMARY KEY,
