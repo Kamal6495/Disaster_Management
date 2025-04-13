@@ -34,12 +34,17 @@ CREATE TABLE disaster_gdacs (
     pubDate DATETIME,
     event_id VARCHAR(50),
     alert_level VARCHAR(20),
-    event_type VARCHAR(10),
+    event_type VARCHAR(20),
     country VARCHAR(100),
     latitude DOUBLE,
     longitude DOUBLE,
-    icon_url TEXT
+    icon_url TEXT,
+    lon_min DOUBLE,
+    lon_max DOUBLE,
+    lat_min DOUBLE,
+    lat_max DOUBLE
 );
+
 
 
 

@@ -214,7 +214,7 @@
                     <a href="mailto:kamal.2024cs12@mnnit.ac.in">kamal.2024cs12@mnnit.ac.in</a>
                 </p>
                 <p><i class="fa fa-linkedin"></i>
-                    <a href="https://www.linkedin.com/in/kamal6495" target="_blank">linkedin.com/in/johndoe</a>
+                    <a href="https://www.linkedin.com/in/kamal6495" target="_blank">linkedin.com/in/kamal6495</a>
                 </p>
                 <p><i class="fa fa-github"></i>
                     <a href="https://github.com/kamal6495" target="_blank">github.com/kamal6495</a>

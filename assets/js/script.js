@@ -58,21 +58,24 @@ function initMap() {
   // }
 }
 
-function getDisasterEmoji(type) {
+function getDisasterEmoji(event_type) {
   const icons = {
-    Earthquake: "🌍",
-    "Sea and Lake Ice": "🌊",
-    Wildfires: "🔥",
-    Drought: "🌾",
-    Storm: "⛈️",
-    Volcanoes: "🌋",
-    Tsunami: "🌊",
-    Blizzard: "❄️",
-    Landslide: "🪨",
-    Rain: "☔",
+    earthquake: "🌍",
+    "sea and lake ice": "🌊",
+    wildfire: "🔥",
+    drought: "🌾",
+    storm: "⛈️",
+    volcanoes: "🌋",
+    tsunami: "🌊",
+    blizzard: "❄️",
+    landslide: "🪨",
+    rain: "☔",
   };
-  return icons[type] || "❗";
+
+  const cleanType = event_type?.trim().toLowerCase();
+  return icons[cleanType] || "❗";
 }
+
 
 function emojiToDataUrlCached(emoji) {
   if (emojiCache[emoji]) return emojiCache[emoji];
@@ -117,8 +120,9 @@ function loadDisasterMarkers() {
       data.forEach((disaster) => {
         if (!disaster.latitude || !disaster.longitude) return;
 
-        const emoji = getDisasterEmoji(disaster.type);
-        const emojiIconUrl = emojiToDataUrlCached(emoji);
+        // const emoji = getDisasterEmoji(disaster.event_type);
+        // console.log(`Mapped event_type "${disaster.event_type}" to emoji: ${emoji}`);
+        const emojiIconUrl = disaster.icon_url;
 
         const marker = new google.maps.Marker({
           position: {
@@ -137,8 +141,8 @@ function loadDisasterMarkers() {
         const infoWindow = new google.maps.InfoWindow({
           content: `
                   <h3>${disaster.title}</h3>
-                 <p>Type: ${disaster.type} ${emoji}</p>
-                     <p><a href="${disaster.source}" target="_blank">More Info</a></p>
+                 <p>Type: ${disaster.event_type} ${emojiIconUrl}</p>
+                     <p><a href="${disaster.link}" target="_blank">More Info</a></p>
   `,
         });
 
@@ -149,11 +153,11 @@ function loadDisasterMarkers() {
         markers.push({ marker, emojiIconUrl });
       });
 
-      // Marker clustering
-      new markerClusterer.MarkerClusterer({
-        map: map1,
-        markers: markers.map((m) => m.marker),
-      });
+      // // Marker clustering
+      // new markerClusterer.MarkerClusterer({
+      //   map: map1,
+      //   markers: markers.map((m) => m.marker),
+      // });
 
       // Adjust marker size on zoom
       map1.addListener("zoom_changed", () => {
@@ -170,3 +174,6 @@ function loadDisasterMarkers() {
       console.error("Error fetching disaster data:", error);
     });
 }
+
+
+

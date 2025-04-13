@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch all disasters
-$sql = "SELECT * FROM disaster_alerts";
+$sql = "SELECT * FROM disaster_gdacs";
 $result = $conn->query($sql);
 $disasters = [];
 

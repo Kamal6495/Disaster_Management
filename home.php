@@ -16,7 +16,7 @@
     <marquee
         behavior="scroll"
         direction="left"
-        scrollamount="6"
+        scrollamount="10"
         onmouseover="this.stop();"
         onmouseout="this.start();"
         style="color: #b71c1c; font-weight: bold; padding: 8px 0;
@@ -29,17 +29,17 @@
         }
 
         // Fetch latest 10 GDACS alerts
-        $sql = "SELECT title, description, country, event_type, link FROM disaster_gdacs ORDER BY pubDate DESC LIMIT 10";
+        $sql = "SELECT * FROM disaster_gdacs ORDER BY pubDate DESC LIMIT 10";
         $result = $conn->query($sql);
 
         // Event type icons
         $icons = [
             'Earthquake' => '🌍',
             'Flood' => '🌊',
-            'Wildfire' => '🔥',
+            'Wildfires' => '🔥',
             'Drought' => '🌾',
             'Storm' => '⛈️',
-            'Volcano' => '🌋',
+            'Volcanoes' => '🌋',
             'Tsunami' => '🌊',
             'Blizzard' => '❄️',
             'Landslide' => '🪨',
@@ -57,7 +57,7 @@
                 $link = htmlspecialchars($row['link']);
 
                 echo "<a href='$link' target='_blank' style='text-decoration:none; color:inherit; margin-right: 20px;'>
-                    $icon <strong>[$event_type]</strong> $title - <em>$desc</em>
+                    $icon <strong>[$title]</strong>  
                 </a> | ";
             }
         } else {

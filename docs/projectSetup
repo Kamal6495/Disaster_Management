@@ -17,3 +17,10 @@ sudo mysql -u root -p
 sudo cp -r ~/Downloads/Disaster_Management /var/www/html/
 sudo chmod -R 777 /var/www/html/Disaster_Management
 sudo chown -R www-data:www-data /var/www/html/Disaster_Management
+
+
+
+
+Alert
+Realtime
+
