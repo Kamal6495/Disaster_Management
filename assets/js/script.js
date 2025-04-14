@@ -3,7 +3,7 @@ const markers = [];
 const emojiCache = {};
 // const sharedInfoWindow1 = new google.maps.InfoWindow(); // ✅ MOVE THIS UP
 
-
+// showSection("home.php");
 
 document.addEventListener("DOMContentLoaded", function () {
   // Setup all nav links
@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Load home.php by default only once on initial load
-  showSection("home.php");
 });
 
 function showSection(sectionFile) {
@@ -41,7 +40,8 @@ function showSection(sectionFile) {
     })
     .catch((error) => {
       console.error("Error fetching file:", error);
-      contentDiv.innerHTML = "<p style='color: red;'>Failed to load content.</p>";
+      contentDiv.innerHTML =
+        "<p style='color: red;'>Failed to load content.</p>";
     });
 }
 
@@ -82,7 +82,6 @@ function getDisasterEmoji(event_type) {
   const cleanType = event_type?.trim().toLowerCase();
   return icons[cleanType] || "❗";
 }
-
 
 function emojiToDataUrlCached(emoji) {
   if (emojiCache[emoji]) return emojiCache[emoji];
@@ -181,6 +180,3 @@ function loadDisasterMarkers() {
       console.error("Error fetching disaster data:", error);
     });
 }
-
-
-

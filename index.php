@@ -1,7 +1,6 @@
 <?php
 include 'assets/key/config.php';
 $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.php
-
 ?>
 
 <!DOCTYPE html>
@@ -13,12 +12,9 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
     <title>Disaster Management Platform</title>
 
     <!-- Stylesheets -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- <link rel="stylesheet" href="assets/css/styleN.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
 
 <body>
@@ -28,7 +24,6 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
         <!-- Top Section -->
         <div class="sidebar-header">
             <img src="images/disaster_logo.jpg" alt="Avatar" class="avatar" style="width: 4cm; height: 4cm;">
-
             <h5 style="margin-top: 10px;">Disaster Management</h5>
 
             <!-- Theme Toggle Button -->
@@ -39,15 +34,14 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
 
         <!-- Navigation Links -->
         <ul class="nav flex-column mt-4">
-            <li class="nav-item"><a class="nav-link" href="home.php"><i class="fa fa-home"></i> Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="relief.php"><i class="fa fa-hand-holding-heart"></i> Relief</a></li>
-            <li class="nav-item"><a class="nav-link" href="notifications.php"><i class="fa fa-bell"></i> Get Notifications</a></li>
-            <li class="nav-item"><a class="nav-link" href="contacts.php"><i class="fa fa-address-book"></i> Contact</a></li>
-            <li class="nav-item"><a class="nav-link" href="info.php"><i class="fa fa-book"></i> Knowledge</a></li>
-            <li class="nav-item"><a class="nav-link" href="data.php"><i class="fa fa-database"></i> Data</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.php"><i class="fa fa-info-circle"></i> About</a></li>
+            <li class="nav-item"><a class="nav-link load-page" href="home.php"><i class="fa fa-home"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link load-page" href="relief.php"><i class="fa fa-hand-holding-heart"></i> Relief</a></li>
+            <li class="nav-item"><a class="nav-link load-page" href="notifications.php"><i class="fa fa-bell"></i> Get Notifications</a></li>
+            <li class="nav-item"><a class="nav-link load-page" href="contacts.php"><i class="fa fa-address-book"></i> Contact</a></li>
+            <li class="nav-item"><a class="nav-link load-page" href="info.php"><i class="fa fa-book"></i> Knowledge</a></li>
+            <li class="nav-item"><a class="nav-link load-page" href="data.php"><i class="fa fa-database"></i> Data</a></li>
+            <li class="nav-item"><a class="nav-link load-page" href="about.php"><i class="fa fa-info-circle"></i> About</a></li>
         </ul>
-
         <!-- Bottom Info Card -->
         <div class="create-teams-card">
             <i class="fa fa-users"></i>
@@ -58,20 +52,20 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
 
     <!-- Content Section -->
     <div id="content">
-        <div class="loading-spinner"></div> <!-- Default loader before home.php loads -->
-        <?php include 'home.php'; ?> <!-- Load home.php initially -->
+        <div class="loading-spinner"></div> <!-- Default loader before home.php load -->
+        <div id="home-content">
+            <?php include 'home.php'; ?> <!-- Load home.php initially -->
+        </div>
     </div>
 
     <!-- Google Maps Script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap&loading=async" async></script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-    <!-- Load Custom Script After API -->
     <script src="./assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
     <script>
-        //Theme Toogle
+        // Theme Toggle
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.querySelector('.theme-toggle');
             const themeIcon = document.getElementById('theme-icon');
@@ -81,27 +75,19 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 body.classList.add('light-mode');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
             }
 
             themeToggle.addEventListener('click', () => {
                 body.classList.toggle('light-mode');
                 const isLight = body.classList.contains('light-mode');
                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
-
-                // Update icon
-                if (isLight) {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                } else {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                }
+                themeIcon.classList.toggle('fa-moon', !isLight);
+                themeIcon.classList.toggle('fa-sun', isLight);
             });
         });
 
-        //OTP Sneding
+        // OTP Sending
         $(document).on("click", "#sendOtp", function() {
             let email = $("#email").val();
             let mobile = $("#mobile").val();
@@ -109,11 +95,7 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
             $.ajax({
                 type: "POST",
                 url: "ajax/otp-handler.php",
-                data: {
-                    send_otp: true,
-                    email: email,
-                    mobile: mobile
-                },
+                data: { send_otp: true, email, mobile },
                 dataType: "json",
                 success: function(response) {
                     if (response.status === "OTP_SENT") {
@@ -135,21 +117,14 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
             $.ajax({
                 type: "POST",
                 url: "ajax/otp-handler.php",
-                data: {
-                    verify_otp: true,
-                    otp: otp,
-                    email: $("#email").val(),
-                    mobile: $("#mobile").val()
-                },
+                data: { verify_otp: true, otp, email: $("#email").val(), mobile: $("#mobile").val() },
                 dataType: "json",
                 success: function(response) {
                     if (response.status === "OTP_VERIFIED") {
                         $("body").css("background", "rgba(0,0,0,0.8)");
                         $("#mainContent").hide();
                         $("#successPopup").removeClass("d-none");
-                        setTimeout(function() {
-                            window.location.href = "index.php?page=home";
-                        }, 2000);
+                        setTimeout(() => window.location.href = "index.php?page=home", 2000);
                     } else {
                         alert("Invalid OTP. Try again.");
                     }
@@ -157,34 +132,22 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
             });
         });
 
-
-
+        // Broadcast Button
         $(document).on("click", "#broadcastBtn", function() {
-            console.log("prashant");
             $.ajax({
-
                 url: "send-broadcast.php",
                 type: "GET",
                 dataType: "text",
                 success: function(data) {
-                    console.log("Broadcast Response:", data);
                     alert("Broadcast sent:\n" + data);
                 },
-                error: function(xhr, status, error) {
-                    console.error("Broadcast AJAX Error:", xhr.responseText);
+                error: function(xhr) {
                     alert("Failed to send broadcast. Check console.");
                 }
             });
         });
-
-        // Sidebar toggle for mobile
-        document.getElementById("menuToggle").addEventListener("click", function() {
-            document.getElementById("sidebar").classList.toggle("active");
-        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
 
 </body>
 
