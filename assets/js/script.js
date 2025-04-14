@@ -3,38 +3,45 @@ const markers = [];
 const emojiCache = {};
 // const sharedInfoWindow1 = new google.maps.InfoWindow(); // ✅ MOVE THIS UP
 
-showSection("home.php"); // Load home.php by default
+
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Setup all nav links
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent page reload
-      const sectionFile = this.getAttribute("href"); // Get PHP file name
+      event.preventDefault(); // Prevent full page reload
+      const sectionFile = this.getAttribute("href");
       showSection(sectionFile);
     });
   });
+
+  // Load home.php by default only once on initial load
+  showSection("home.php");
 });
 
 function showSection(sectionFile) {
   const contentDiv = document.getElementById("content");
 
   // Show loading spinner
-  contentDiv.innerHTML = '<div class="loading-spinner"></div>';
+  contentDiv.innerHTML = '<div class="loading-spinner">Loading...</div>';
 
   fetch(sectionFile)
-    .then((response) => response.text())
+    .then((response) => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.text();
+    })
     .then((data) => {
-      contentDiv.innerHTML = data; // Load new content
+      contentDiv.innerHTML = data;
 
       // Check if the loaded content contains a map element
       if (document.getElementById("map")) {
         console.log("Map detected, initializing...");
-        initMap();
+        if (typeof initMap === "function") initMap();
       }
     })
     .catch((error) => {
-      //contentDiv.innerHTML = "<p>Error loading content.</p>";
       console.error("Error fetching file:", error);
+      contentDiv.innerHTML = "<p style='color: red;'>Failed to load content.</p>";
     });
 }
 
@@ -102,7 +109,7 @@ function getIconSize(zoom) {
 }
 
 function loadDisasterMarkers() {
-  fetch("/Disaster_Management/database/get_disasters.php")
+  fetch("/Disaster_Management/database/get_gdacs_data.php")
     .then((response) => {
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);

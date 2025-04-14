@@ -36,7 +36,7 @@
         $icons = [
             'Earthquake' => '🌍',
             'Flood' => '🌊',
-            'Wildfires' => '🔥',
+            'Wildfire' => '🔥',
             'Drought' => '🌾',
             'Storm' => '⛈️',
             'Volcanoes' => '🌋',

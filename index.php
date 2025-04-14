@@ -1,6 +1,7 @@
 <?php
-include './assets/key/config.php';
+include 'assets/key/config.php';
 $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.php
+
 ?>
 
 <!DOCTYPE html>
@@ -12,11 +13,12 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
     <title>Disaster Management Platform</title>
 
     <!-- Stylesheets -->
-     
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- <link rel="stylesheet" href="assets/css/styleN.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 
 <body>
@@ -25,7 +27,7 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
     <nav class="sidebar">
         <!-- Top Section -->
         <div class="sidebar-header">
-        <img src="images/disaster_logo.jpg" alt="Avatar" class="avatar" style="width: 4cm; height: 4cm;">
+            <img src="images/disaster_logo.jpg" alt="Avatar" class="avatar" style="width: 4cm; height: 4cm;">
 
             <h5 style="margin-top: 10px;">Disaster Management</h5>
 
@@ -57,15 +59,19 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
     <!-- Content Section -->
     <div id="content">
         <div class="loading-spinner"></div> <!-- Default loader before home.php loads -->
-        <?php include 'home.php'; ?>  <!-- Load home.php initially -->
+        <?php include 'home.php'; ?> <!-- Load home.php initially -->
     </div>
 
     <!-- Google Maps Script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_maps_api_key; ?>&callback=initMap&loading=async" async></script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+    <!-- Load Custom Script After API -->
+    <script src="./assets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Custom JS for Theme Toggle -->
+
     <script>
+        //Theme Toogle
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.querySelector('.theme-toggle');
             const themeIcon = document.getElementById('theme-icon');
@@ -94,29 +100,22 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
                 }
             });
         });
-    </script>
 
-
-
-
-
-
-    <!-- Load Custom Script After API -->
-    <script src="./assets/js/script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        $(document).on("click", "#sendOtp", function () {
+        //OTP Sneding
+        $(document).on("click", "#sendOtp", function() {
             let email = $("#email").val();
             let mobile = $("#mobile").val();
 
             $.ajax({
                 type: "POST",
                 url: "ajax/otp-handler.php",
-                data: { send_otp: true, email: email, mobile: mobile },
+                data: {
+                    send_otp: true,
+                    email: email,
+                    mobile: mobile
+                },
                 dataType: "json",
-                success: function (response) {
+                success: function(response) {
                     if (response.status === "OTP_SENT") {
                         $("#otpSection").removeClass("d-none");
                         $("#sendOtp").hide();
@@ -124,13 +123,13 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
                         alert(response.message);
                     }
                 },
-                error: function () {
+                error: function() {
                     alert("Failed to send OTP. Please check the console.");
                 }
             });
         });
 
-        $(document).on("click", "#verifyOtp", function () {
+        $(document).on("click", "#verifyOtp", function() {
             let otp = $("#otp").val();
 
             $.ajax({
@@ -143,12 +142,12 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
                     mobile: $("#mobile").val()
                 },
                 dataType: "json",
-                success: function (response) {
+                success: function(response) {
                     if (response.status === "OTP_VERIFIED") {
                         $("body").css("background", "rgba(0,0,0,0.8)");
                         $("#mainContent").hide();
                         $("#successPopup").removeClass("d-none");
-                        setTimeout(function () {
+                        setTimeout(function() {
                             window.location.href = "index.php?page=home";
                         }, 2000);
                     } else {
@@ -160,33 +159,33 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
 
 
 
-        $(document).on("click", "#broadcastBtn" ,function () {
-        console.log("prashant");
-        $.ajax({
-           
-            url: "send-broadcast.php",
-            type: "GET",
-            dataType: "text",
-            success: function (data) {
-                console.log("Broadcast Response:", data);
-                alert("Broadcast sent:\n" + data);
-            },
-            error: function (xhr, status, error) {
-                console.error("Broadcast AJAX Error:", xhr.responseText);
-                alert("Failed to send broadcast. Check console.");
-            }
+        $(document).on("click", "#broadcastBtn", function() {
+            console.log("prashant");
+            $.ajax({
+
+                url: "send-broadcast.php",
+                type: "GET",
+                dataType: "text",
+                success: function(data) {
+                    console.log("Broadcast Response:", data);
+                    alert("Broadcast sent:\n" + data);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Broadcast AJAX Error:", xhr.responseText);
+                    alert("Failed to send broadcast. Check console.");
+                }
+            });
         });
-    });
 
         // Sidebar toggle for mobile
-        document.getElementById("menuToggle").addEventListener("click", function () {
+        document.getElementById("menuToggle").addEventListener("click", function() {
             document.getElementById("sidebar").classList.toggle("active");
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
 
-   
+
+
 </body>
 
 </html>

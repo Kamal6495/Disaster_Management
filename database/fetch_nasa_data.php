@@ -2,15 +2,15 @@
 include '../assets/key/config.php';
 //include __DIR__ . '/assets/key/config.php';
 // Database Connection
-$host = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "disaster_db";
+// $host = "localhost";
+// $username = "root";
+// $password = "root";
+// $dbname = "disaster_db";
 
-$conn = new mysqli($host, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// $conn = new mysqli($host, $username, $password, $dbname);
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
 /**********GDACS DAATA FOR MARQUEE********************************** */
 $xml = simplexml_load_file($GDACS_RSS7D);
 
@@ -68,7 +68,28 @@ foreach ($items as $item) {
 
     // GDACS fields
     $alert_level = $conn->real_escape_string((string)$gdacs->alertlevel);
-    $country = $conn->real_escape_string((string)$gdacs->country);
+
+    /** Country */
+// Process country field as a string
+$country_raw = (string)$gdacs->country;
+$country = trim($country_raw);
+
+// If the country is empty or null, set it to "Unknown"
+if (empty($country)) {
+    $country = "Unknown";  // Default to "Unknown"
+} else {
+    // Exploding and trimming the country string into an array if it has comma-separated values
+    $country_array = array_map('trim', explode(',', $country));
+    // Join the array into a comma-separated string
+    $country = implode(", ", $country_array);
+}
+
+// Escape for SQL
+$country = $conn->real_escape_string($country);
+
+
+
+
     $event_type = $conn->real_escape_string((string)$gdacs->eventtype);
     $icon_url = $conn->real_escape_string((string)$gdacs->icon);
 
@@ -90,13 +111,27 @@ foreach ($items as $item) {
         case 'EQ':
             $event_type = 'Earthquake';
             break;
-        case 'FL':
+        case 'FL1':
             $event_type = 'Flood';
+            break;
+
         case 'TC':
             $event_type = 'Cyclone';
             break;
-           
+        default:
+            $event_type = 'Unknown';
+            break;
     }
+
+    echo "<pre>";
+    echo "<div style='margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #f9f9f9;'>";
+    echo "🛰️ NASA Event Data:\n";
+    echo "Event ID: $event_id\n";
+    echo "Country: $country\n";
+
+    echo "</div>";
+    echo "</pre>";
+
 
 
     // DB Duplicate Check
@@ -127,58 +162,61 @@ foreach ($items as $item) {
 }
 
 
-$conn->close();
+// $conn->close();--> open for all
 
 
 /**********NASA DATA FECTH FOR MARING in GAMAPs********************************** */
-// $nasa_url = "https://eonet.gsfc.nasa.gov/api/v3/events";
-// $nasa_data = json_decode(file_get_contents($nasa_url), true);
+$nasa_url = "https://eonet.gsfc.nasa.gov/api/v3/events";
+$nasa_data = json_decode(file_get_contents($nasa_url), true);
 
-// // === NASA JSON Data Insertion ===
-// if (isset($nasa_data['events'])) {
-//     foreach ($nasa_data['events'] as $event) {
-//         $event_id = $conn->real_escape_string($event['id']);
-//         $title = $conn->real_escape_string($event['title']);
-//         $type = $conn->real_escape_string($event['categories'][0]['title']);
-//         $source = $conn->real_escape_string($event['sources'][0]['url']);
-//         $status = $conn->real_escape_string($event['status']);
-//         $timestamp = date('Y-m-d H:i:s', strtotime($event['geometry'][0]['date']));
-//         $lat = $event['geometry'][0]['coordinates'][1] ?? null;
-//         $lon = $event['geometry'][0]['coordinates'][0] ?? null;
-//         /************* Debug print each field before inserting************** */
-//         // echo "<pre>NASA Event: " . print_r($event, true) . "</pre>";
+// === NASA JSON Data Insertion ===
+if (isset($nasa_data['events'])) {
+    foreach ($nasa_data['events'] as $event) {
+        $event_id = $conn->real_escape_string($event['id']);
+        $title = $conn->real_escape_string($event['title']);
+        $type = $conn->real_escape_string($event['categories'][0]['title']);
+        $source = $conn->real_escape_string($event['sources'][0]['url']);
+        $status = $conn->real_escape_string($event['status']);
+        $timestamp = date('Y-m-d H:i:s', strtotime($event['geometry'][0]['date']));
+        $lat = $event['geometry'][0]['coordinates'][1] ?? null;
+        $lon = $event['geometry'][0]['coordinates'][0] ?? null;
+        /************* Debug print each field before inserting************** */
+        // echo "<pre>NASA Event: " . print_r($event, true) . "</pre>";
         
-//         echo "<pre>";
-//         echo "<div style='margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #f9f9f9;'>";
-//         echo "🛰️ NASA Event Data:\n";
-//         echo "Event ID: $event_id\n";
-//         echo "Title: $title\n";
-//         echo "Type: $type\n";
-//         echo "Source: $source\n";
-//         echo "Status: $status\n";
-//         echo "Timestamp: $timestamp\n";
-//         echo "Latitude: $lat\n";
-//         echo "Longitude: $lon\n";
-//         echo "</div>";
-//         echo "</pre>";
+        echo "<pre>";
+        echo "<div style='margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #f9f9f9;'>";
+        echo "🛰️ NASA Event Data:\n";
+        echo "Event ID: $event_id\n";
+        echo "Title: $title\n";
+        echo "Type: $type\n";
+        echo "Source: $source\n";
+        echo "Status: $status\n";
+        echo "Timestamp: $timestamp\n";
+        echo "Latitude: $lat\n";
+        echo "Longitude: $lon\n";
+        echo "</div>";
+        echo "</pre>";
         
 
 
 
-//         /***Inserting in dv */
+        /***Inserting in dv */
 
-//         $check_sql = "SELECT * FROM disaster_alerts WHERE event_id = '$event_id'";
-//         if ($conn->query($check_sql)->num_rows == 0) {
-//             $sql = "INSERT INTO disaster_alerts (event_id, title, type, source, status, timestamp, latitude, longitude)
-//                     VALUES ('$event_id', '$title', '$type', '$source', '$status', '$timestamp', '$lat', '$lon')";
+        $check_sql = "SELECT * FROM disaster_alerts WHERE event_id = '$event_id'";
+        if ($conn->query($check_sql)->num_rows == 0) {
+            $sql = "INSERT INTO disaster_alerts (event_id, title, type, source, status, timestamp, latitude, longitude)
+                    VALUES ('$event_id', '$title', '$type', '$source', '$status', '$timestamp', '$lat', '$lon')";
 
-//             if ($conn->query($sql)) {
-//                 echo "✅ Inserted: $title<br>";
-//             } else {
-//                 echo "❌ Error inserting $event_id: " . $conn->error . "<br>";
-//             }
-//         } else {
-//             echo "⚠️ Already exists: $event_id - $title<br>";
-//         }
-//     }
-// }
+            if ($conn->query($sql)) {
+                echo "✅ Inserted: $title<br>";
+            } else {
+                echo "❌ Error inserting $event_id: " . $conn->error . "<br>";
+            }
+        } else {
+            echo "⚠️ Already exists: $event_id - $title<br>";
+        }
+    }
+}
+
+echo json_encode(['success' => true]);
+exit;
