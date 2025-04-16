@@ -14,7 +14,7 @@ sudo systemctl restart apache2
 sudo systemctl restart mysql
 sudo mysql -u root -p
 
-sudo cp -r ~/Downloads/Disaster_Management /var/www/html/
+sudo cp -r ~/path_to_dir/Disaster_Management /var/www/html/
 sudo chmod -R 777 /var/www/html/Disaster_Management
 sudo chown -R www-data:www-data /var/www/html/Disaster_Management
 
