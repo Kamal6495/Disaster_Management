@@ -1,13 +1,19 @@
-
-
-
 <div class="container">
 
     <!-- Heading and Logo Row -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h2 style="margin: 0;">Disaster Alert Map</h2>
-        <img src="images/logo.jpg" alt="Logo" style="width: 3cm; height: 3cm; object-fit: contain;">
+
+        <!-- Sync Button and Logo -->
+        <div style="display: flex; align-items: center;">
+            <button onclick="syncDisasterData()"
+                style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right,rgb(82, 194, 255),rgb(239, 209, 121), #66bb6a); color: black; border: none; border-radius: 5px; cursor: pointer;">
+                🔄 Sync
+            </button>
+            <img src="images/logo.jpg" alt="Logo" style="width: 3cm; height: 3cm; object-fit: contain;">
+        </div>
     </div>
+
 
     <!-- Gradient Line -->
     <hr style="height: 4px; background: linear-gradient(to right, #ff5252, #ffca28, #66bb6a); border: none; margin: 10px 0;">
@@ -77,113 +83,145 @@
 
 </div>
 
-
-
 <!-- Load Custom Script After API -->
 <script src="./assets/js/script.js"></script>
+<script>
+function syncDisasterData() {
+    // Show a quick visual cue (optional)
+    const button = event.target;
+    button.disabled = true;
+    button.innerText = '⏳ Syncing...';
+
+    // Call your PHP script
+    fetch('database/fetch_nasa_data.php')
+        .then(response => {
+            if (!response.ok) throw new Error('Sync failed');
+            return response.text();
+        })
+        .then(data => {
+            console.log('Sync successful:', data);
+            // Reload page after sync
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during sync:', error);
+            alert('Sync failed. Please try again.');
+        })
+        .finally(() => {
+            // Reset button in case of error (optional)
+            button.disabled = false;
+            button.innerText = '🔄 Sync';
+        });
+}
+</script>
+
+
 
 <!-- Horizontal Line Separator -->
 <hr style="border: none; height: 20px; background-color: #333; margin: 40px 0;">
 
 <style>
-  .wrapper {
-    padding: 3rem 1rem;
-    background: linear-gradient(to right, #e0f7fa, #fefefe);
-  }
-
-  .header {
-    margin-bottom: 3rem;
-  }
-
-  .tagline {
-    font-size: 1.2rem;
-    color: #555;
-    font-style: italic;
-  }
-
-  .card {
-    height: 100%;
-    margin: 10px;
-    padding: 4px;
-    border: none;
-    border-radius: 1rem;
-    overflow: hidden;
-    background: linear-gradient(135deg, limegreen, #1e90ff, crimson);
-    background-size: 200% 200%;
-    animation: cardGradient 8s ease infinite;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-  }
-  .row {
-  margin-bottom: 20px !important;
-}
-
-
-  @keyframes cardGradient {
-    0% {
-      background-position: 0% 50%;
+    .wrapper {
+        padding: 3rem 1rem;
+        background: linear-gradient(to right, #e0f7fa, #fefefe);
     }
-    50% {
-      background-position: 100% 50%;
+
+    .header {
+        margin-bottom: 3rem;
     }
-    100% {
-      background-position: 0% 50%;
+
+    .tagline {
+        font-size: 1.2rem;
+        color: #555;
+        font-style: italic;
     }
-  }
 
-  .card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-  }
+    .card {
+        height: 100%;
+        margin: 10px;
+        padding: 4px;
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+        background: linear-gradient(135deg, limegreen, #1e90ff, crimson);
+        background-size: 200% 200%;
+        animation: cardGradient 8s ease infinite;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
 
-  .card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-  }
+    .row {
+        margin-bottom: 20px !important;
+    }
 
-  .card-body {
-    padding: 1rem;
-    flex: 1;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
 
-  .card-body h3 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #2c3e50;
-    font-weight: bold;
-  }
+    @keyframes cardGradient {
+        0% {
+            background-position: 0% 50%;
+        }
 
-  .btn-primary {
-    align-self: flex-start;
-    background-color: #007bff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s ease;
-  }
+        50% {
+            background-position: 100% 50%;
+        }
 
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 
-  @media (max-width: 768px) {
+    .card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
     .card img {
-      height: 180px;
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+        flex: 1;
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .card-body h3 {
-      font-size: 1.25rem;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: #2c3e50;
+        font-weight: bold;
     }
-  }
+
+    .btn-primary {
+        align-self: flex-start;
+        background-color: #007bff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        .card img {
+            height: 180px;
+        }
+
+        .card-body h3 {
+            font-size: 1.25rem;
+        }
+    }
 </style>
 
 
