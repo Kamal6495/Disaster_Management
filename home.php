@@ -4,15 +4,52 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h2 style="margin: 0;">Disaster Alert Map</h2>
 
-        <!-- Sync Button and Logo -->
+        <!-- Buttons and Logo -->
         <div style="display: flex; align-items: center;">
+            <!-- Subscribe Button -->
+            <button onclick="showSubscribePopup()"
+                style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right, #f78ca0, #f9748f); color: white; border: none; border-radius: 5px; cursor: pointer;">
+                🔔 Subscribe
+            </button>
+
+            <!-- Sync Button -->
             <button onclick="syncDisasterData()"
-                style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right,rgb(82, 194, 255),rgb(239, 209, 121), #66bb6a); color: black; border: none; border-radius: 5px; cursor: pointer;">
+                style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right, rgb(82, 194, 255), rgb(239, 209, 121), #66bb6a); color: black; border: none; border-radius: 5px; cursor: pointer;">
                 🔄 Sync
             </button>
+
+            <!-- Logo -->
             <img src="images/logo.jpg" alt="Logo" style="width: 3cm; height: 3cm; object-fit: contain;">
         </div>
     </div>
+
+
+
+    <!-- Subscribe Popup -->
+    <div id="subscribePopup" class="d-none position-fixed top-50 start-50 translate-middle" style="background: rgba(30,30,60,0.9); border-radius: 20px; color: #fff; border: 2px solid #b388eb; padding: 30px; z-index: 9999; box-shadow: 0 0 30px rgba(0,0,0,0.3); text-align: center;">
+        <h3>Subscribe to MNNIT Disaster Alert</h3>
+        <input type="email" id="subEmail" placeholder="Enter Email" class="form-control mt-2">
+        <input type="text" id="subMobile" placeholder="Enter Mobile" class="form-control mt-2">
+        <button class="btn btn-primary mt-3" onclick="sendSubscriptionOtp()">Send OTP</button>
+
+        <div id="otpSection" class="d-none mt-3">
+            <input type="text" id="subOtp" placeholder="Enter OTP" class="form-control mt-2">
+            <button class="btn btn-success mt-2" onclick="verifySubscriptionOtp()">Verify OTP</button>
+        </div>
+    </div>
+
+    <!-- Thank You Popup -->
+    <div id="thankYouPopup" class="d-none position-fixed top-50 start-50 translate-middle" style="background: rgba(30,30,60,0.95); padding: 30px; border-radius: 20px; border: 2px solid #66bb6a; color: #fff; z-index: 9999;">
+        <h1>✅</h1>
+        <h3>Thank you for subscribing to MNNIT Disaster Alert System!</h3>
+        <button class="btn btn-primary mt-3" onclick="document.getElementById('thankYouPopup').classList.add('d-none')">Close</button>
+    </div>
+
+
+    <!-- Background Overlay -->
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+    background: rgba(0,0,0,0.4); z-index: 900;"></div>
+
 
 
     <!-- Gradient Line -->
@@ -70,7 +107,7 @@
             echo "✅ No current disaster alerts.";
         }
 
-        $conn->close();
+
         ?>
     </marquee>
 
@@ -85,35 +122,9 @@
 
 <!-- Load Custom Script After API -->
 <script src="./assets/js/script.js"></script>
-<script>
-function syncDisasterData() {
-    // Show a quick visual cue (optional)
-    const button = event.target;
-    button.disabled = true;
-    button.innerText = '⏳ Syncing...';
-
-    // Call your PHP script
-    fetch('database/fetch_nasa_data.php')
-        .then(response => {
-            if (!response.ok) throw new Error('Sync failed');
-            return response.text();
-        })
-        .then(data => {
-            console.log('Sync successful:', data);
-            // Reload page after sync
-            location.reload();
-        })
-        .catch(error => {
-            console.error('Error during sync:', error);
-            alert('Sync failed. Please try again.');
-        })
-        .finally(() => {
-            // Reset button in case of error (optional)
-            button.disabled = false;
-            button.innerText = '🔄 Sync';
-        });
-}
-</script>
+<!-- <script>
+    
+</script> -->
 
 
 

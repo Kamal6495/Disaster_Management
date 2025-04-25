@@ -88,49 +88,49 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
         });
 
         // OTP Sending
-        $(document).on("click", "#sendOtp", function() {
-            let email = $("#email").val();
-            let mobile = $("#mobile").val();
+        // $(document).on("click", "#sendOtp", function() {
+        //     let email = $("#email").val();
+        //     let mobile = $("#mobile").val();
 
-            $.ajax({
-                type: "POST",
-                url: "ajax/otp-handler.php",
-                data: { send_otp: true, email, mobile },
-                dataType: "json",
-                success: function(response) {
-                    if (response.status === "OTP_SENT") {
-                        $("#otpSection").removeClass("d-none");
-                        $("#sendOtp").hide();
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function() {
-                    alert("Failed to send OTP. Please check the console.");
-                }
-            });
-        });
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "ajax/otp-handler.php",
+        //         data: { send_otp: true, email, mobile },
+        //         dataType: "json",
+        //         success: function(response) {
+        //             if (response.status === "OTP_SENT") {
+        //                 $("#otpSection").removeClass("d-none");
+        //                 $("#sendOtp").hide();
+        //             } else {
+        //                 alert(response.message);
+        //             }
+        //         },
+        //         error: function() {
+        //             alert("Failed to send OTP. Please check the console.");
+        //         }
+        //     });
+        // });
 
-        $(document).on("click", "#verifyOtp", function() {
-            let otp = $("#otp").val();
+        // $(document).on("click", "#verifyOtp", function() {
+        //     let otp = $("#otp").val();
 
-            $.ajax({
-                type: "POST",
-                url: "ajax/otp-handler.php",
-                data: { verify_otp: true, otp, email: $("#email").val(), mobile: $("#mobile").val() },
-                dataType: "json",
-                success: function(response) {
-                    if (response.status === "OTP_VERIFIED") {
-                        $("body").css("background", "rgba(0,0,0,0.8)");
-                        $("#mainContent").hide();
-                        $("#successPopup").removeClass("d-none");
-                        setTimeout(() => window.location.href = "index.php?page=home", 2000);
-                    } else {
-                        alert("Invalid OTP. Try again.");
-                    }
-                }
-            });
-        });
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "ajax/otp-handler.php",
+        //         data: { verify_otp: true, otp, email: $("#email").val(), mobile: $("#mobile").val() },
+        //         dataType: "json",
+        //         success: function(response) {
+        //             if (response.status === "OTP_VERIFIED") {
+        //                 $("body").css("background", "rgba(0,0,0,0.8)");
+        //                 $("#mainContent").hide();
+        //                 $("#successPopup").removeClass("d-none");
+        //                 setTimeout(() => window.location.href = "index.php?page=home", 2000);
+        //             } else {
+        //                 alert("Invalid OTP. Try again.");
+        //             }
+        //         }
+        //     });
+        // });
 
         // Broadcast Button
         $(document).on("click", "#broadcastBtn", function() {
@@ -146,6 +146,108 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
                 }
             });
         });
+
+        function syncDisasterData() {
+        // Show a quick visual cue (optional)
+        const button = event.target;
+        button.disabled = true;
+        button.innerText = '⏳ Syncing...';
+
+        // Call your PHP script
+        fetch('database/fetch_nasa_data.php')
+            .then(response => {
+                if (!response.ok) throw new Error('Sync failed');
+                return response.text();
+            })
+            .then(data => {
+                console.log('Sync successful:', data);
+                // Reload page after sync
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error during sync:', error);
+                alert('Sync failed. Please try again.');
+            })
+            .finally(() => {
+                // Reset button in case of error (optional)
+                button.disabled = false;
+                button.innerText = '🔄 Sync';
+            });
+    }
+
+
+
+    function showSubscribePopup() {
+    document.getElementById("subscribePopup").classList.remove("d-none");
+}
+
+function sendSubscriptionOtp() {
+    const email = document.getElementById("subEmail").value.trim();
+    const mobile = document.getElementById("subMobile").value.trim();
+
+    if (!email || !mobile) {
+        alert("Please enter both email and mobile number.");
+        return;
+    }
+
+    $.post('ajax/otp-handler.php', {
+        send_otp: true,
+        email: email,
+        mobile: mobile
+    }, function(res) {
+        let data;
+        try {
+            data = JSON.parse(res);
+        } catch (e) {
+            alert("Unexpected response from server.");
+            console.error(res);
+            return;
+        }
+
+        if (data.status === "OTP_SENT") {
+            alert("✅ OTP sent to Email and Mobile.");
+            document.getElementById("otpSection").classList.remove("d-none");
+        } else {
+            alert("❌ Error sending OTP: " + (data.message || ""));
+        }
+    });
+}
+
+function verifySubscriptionOtp() {
+    const email = document.getElementById("subEmail").value.trim();
+    const otp = document.getElementById("subOtp").value.trim();
+
+    if (!email || !otp) {
+        alert("Please enter email and OTP.");
+        return;
+    }
+
+    $.post('ajax/otp-handler.php', {
+        verify_otp: true,
+        email: email,
+        otp: otp
+    }, function(res) {
+        let data;
+        try {
+            data = JSON.parse(res);
+        } catch (e) {
+            alert("Unexpected response from server.");
+            console.error(res);
+            return;
+        }
+
+        if (data.status === "OTP_VERIFIED") {
+            document.getElementById("subscribePopup").classList.add("d-none");
+            document.getElementById("thankYouPopup").classList.remove("d-none");
+        } else {
+            alert("❌ Invalid OTP");
+        }
+    });
+}
+
+
+
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
