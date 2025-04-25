@@ -7,14 +7,14 @@ const emojiCache = {};
 
 document.addEventListener("DOMContentLoaded", function () {
   // Setup all nav links
-  document.querySelectorAll(".nav-link").forEach((link) => {
+  document.querySelectorAll(".nav-link, .load-page").forEach((link) => {
     link.addEventListener("click", function (event) {
       event.preventDefault(); // Prevent full page reload
       const sectionFile = this.getAttribute("href");
       showSection(sectionFile);
     });
   });
-
+// showSection("home.php");
   // Load home.php by default only once on initial load
 });
 
@@ -37,6 +37,14 @@ function showSection(sectionFile) {
         console.log("Map detected, initializing...");
         if (typeof initMap === "function") initMap();
       }
+
+
+      // Chart logic for data.php
+      // Chart logic for data.php
+      if (sectionFile.includes("data.php")) {
+        console.log("Chart section loaded. Drawing charts...");
+       drawCharts();
+      }
     })
     .catch((error) => {
       console.error("Error fetching file:", error);
@@ -44,7 +52,6 @@ function showSection(sectionFile) {
         "<p style='color: red;'>Failed to load content.</p>";
     });
 }
-
 /**main.js:171 As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide. */
 // Initialize Google Map
 function initMap() {
@@ -179,4 +186,100 @@ function loadDisasterMarkers() {
     .catch((error) => {
       console.error("Error fetching disaster data:", error);
     });
+}
+
+function drawCharts() {
+  // Example of how you might dynamically load data and create charts
+  fetch("/Disaster_Management/database/get_nasa_data.php")
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      return response.json();
+    })
+    .then((data) => {
+      if (!Array.isArray(data) || data.length === 0) {
+        console.warn("No NASA disaster data available.");
+        return;
+      }
+
+      // Step 1: Categorize disasters by type
+      const disasterTypes = {};
+      data.forEach(event => {
+        const type = event.type || "Unknown";
+        if (!disasterTypes[type]) {
+          disasterTypes[type] = [];
+        }
+        disasterTypes[type].push(event);
+      });
+
+      // Step 2: Get the chart container element
+      const chartContainer = document.getElementById('chart-container');
+      if (!chartContainer) return; // If there's no chart container, exit
+
+      // Step 3: Loop through the disaster types and create the charts
+      Object.keys(disasterTypes).forEach(type => {
+        const chartDiv = document.createElement('div');
+        chartDiv.classList.add('col-md-6'); // Add Bootstrap column class
+        
+        // Create a new canvas for the chart
+        const canvas = document.createElement('canvas');
+        canvas.id = `chart_${type}`; // Unique ID for each chart canvas
+        
+        // Append the canvas to the chart div
+        chartDiv.appendChild(canvas);
+        
+        // Append the chart div to the chart container
+        chartContainer.appendChild(chartDiv);
+
+        // Create the chart for the current disaster type
+        const ctx = canvas.getContext("2d");
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: disasterTypes[type].map(event => new Date(event.timestamp).toLocaleDateString()), // Event dates as labels
+            datasets: [{
+              label: `${type} Disaster Events`,
+              data: new Array(disasterTypes[type].length).fill(1), // Each event counts as 1
+              backgroundColor: getRandomColor(),
+              borderColor: getRandomColor(),
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: `${type} Disaster Events`
+              },
+              legend: {
+                position: 'top',
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Number of Events'
+                }
+              }
+            }
+          }
+        });
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching NASA disaster data:", error);
+    });
+}
+
+// Helper function to generate random colors for the chart
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }

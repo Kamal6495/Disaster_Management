@@ -122,6 +122,7 @@
 
 <!-- Load Custom Script After API -->
 <script src="./assets/js/script.js"></script>
+
 <!-- <script>
     
 </script> -->

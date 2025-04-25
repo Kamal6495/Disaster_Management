@@ -46,5 +46,24 @@ CREATE TABLE disaster_gdacs (
 );
 
 
+==============================================================================
+LINK
+Tsunami
+---------
+cite:https://data.noaa.gov/metaview/page?xml=NOAA/NESDIS/NGDC/MGG/Hazards/iso/xml/G02151.xml&view=getDataView
+link:https://www.ngdc.noaa.gov/hazel/view/hazards/tsunami/event-data
+
+Eqrthquae
+-----------
+cite:https://data.noaa.gov/metaview/page?xml=NOAA/NESDIS/NGDC/MGG/Hazards/iso/xml/G012153.xml&view=getDataView
+link:https://www.ngdc.noaa.gov/hazel/view/hazards/earthquake/event-data
+
+Volcano
+-------
+cite:https://www.ngdc.noaa.gov/hazel/view/hazards/volcano/event-data
+link:https://data.noaa.gov/metaview/page?xml=NOAA/NESDIS/NGDC/MGG/Hazards/iso/xml/G10147.xml&view=getDataView
+
+
+
 
 

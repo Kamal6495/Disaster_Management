@@ -100,8 +100,8 @@
         }
 
         .dev-photo {
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 10px;
@@ -206,7 +206,7 @@
 
         <div class="developer-section">
             <div class="developer-card">
-                <img src="dev1.jpg" alt="Developer 1" class="dev-photo">
+                <img src="images/dev1.jpg" alt="Developer 1" class="dev-photo">
                 <h3>👨‍💻 Kamal Kant Singh</h3>
                 <p><strong>Branch:</strong> Computer Science and Engineering</p>
                 <p><strong>College:</strong> MNNIT Allahabad</p>
