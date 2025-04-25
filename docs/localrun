@@ -16,3 +16,7 @@ sudo systemctl start mysql
 
 sudo systemctl status apache2
 sudo systemctl status mysql
+
+
+
+xampp_start.exe
