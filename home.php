@@ -2,26 +2,32 @@
 
     <!-- Heading and Logo Row -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2 style="margin: 0;">Disaster Alert Map</h2>
+    <h2 style="margin: 0;">Disaster Alert Map</h2>
 
-        <!-- Buttons and Logo -->
-        <div style="display: flex; align-items: center;">
-            <!-- Subscribe Button -->
-            <button onclick="showSubscribePopup()"
-                style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right, #f78ca0, #f9748f); color: white; border: none; border-radius: 5px; cursor: pointer;">
-                🔔 Subscribe
-            </button>
+    <!-- Buttons and Logo -->
+    <div style="display: flex; align-items: center;">
+        <!-- Broadcast Button -->
+        <button id="broadcastBtn"
+            style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right, #ff9a9e, #fad0c4); color: black; border: none; border-radius: 5px; cursor: pointer;">
+            📢 Alert 📢
+        </button>
 
-            <!-- Sync Button -->
-            <button onclick="syncDisasterData()"
-                style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right, rgb(82, 194, 255), rgb(239, 209, 121), #66bb6a); color: black; border: none; border-radius: 5px; cursor: pointer;">
-                🔄 Sync
-            </button>
+        <!-- Subscribe Button -->
+        <button onclick="showSubscribePopup()"
+            style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right, #f78ca0, #f9748f); color: white; border: none; border-radius: 5px; cursor: pointer;">
+            🔔 Subscribe
+        </button>
 
-            <!-- Logo -->
-            <img src="images/logo.jpg" alt="Logo" style="width: 3cm; height: 3cm; object-fit: contain;">
-        </div>
+        <!-- Sync Button -->
+        <button onclick="syncDisasterData()"
+            style="margin-right: 10px; padding: 8px 12px; background: linear-gradient(to right, rgb(82, 194, 255), rgb(239, 209, 121), #66bb6a); color: black; border: none; border-radius: 5px; cursor: pointer;">
+            🔄 Sync
+        </button>
+
+        <!-- Logo -->
+        <img src="images/logo.jpg" alt="Logo" style="width: 3cm; height: 3cm; object-fit: contain;">
     </div>
+</div>
 
 
 

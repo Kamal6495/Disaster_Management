@@ -36,7 +36,7 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
         <ul class="nav flex-column mt-4">
             <li class="nav-item"><a class="nav-link load-page" href="home.php"><i class="fa fa-home"></i> Dashboard</a></li>
             <li class="nav-item"><a class="nav-link load-page" href="relief.php"><i class="fa fa-hand-holding-heart"></i> Relief</a></li>
-            <li class="nav-item"><a class="nav-link load-page" href="notifications.php"><i class="fa fa-bell"></i> Get Notifications</a></li>
+            <!-- <li class="nav-item"><a class="nav-link load-page" href="notifications.php"><i class="fa fa-bell"></i> Get Notifications</a></li> -->
             <li class="nav-item"><a class="nav-link load-page" href="contacts.php"><i class="fa fa-address-book"></i> Contact</a></li>
             <li class="nav-item"><a class="nav-link load-page" href="info.php"><i class="fa fa-book"></i> Knowledge</a></li>
             <li class="nav-item"><a class="nav-link load-page" href="data.php"><i class="fa fa-database"></i> Data</a></li>
