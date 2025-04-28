@@ -102,7 +102,7 @@
                 <li><span class="phone">Medical Emergency:</span> 102</li>
                 <li><span class="phone">Fire Services:</span> 101</li>
                 <li><span class="phone">Police Helpline:</span> 100</li>
-                <li><span class="email">Email:</span> emergency@disasterhelp.org</li>
+                <li><span class="email">Email:</span> <a href="mailto:emergency@disasterhelp.org">emergency@disasterhelp.org</a></li>
             </ul>
         </div>
 
@@ -113,7 +113,7 @@
                 <li>Join our trained volunteer force to assist in rescue and relief.</li>
                 <li>Get certified through local disaster management authorities.</li>
                 <li>Register online or contact your nearest relief office.</li>
-                <li><span class="email">Email:</span> volunteer@disasterrelief.org</li>
+                <li><span class="email">Email:</span> <a href="mailto:volunteer@disasterrelief.org">volunteer@disasterrelief.org</a></li>
                 <li><span class="phone">Phone:</span> +91 98765 43210</li>
             </ul>
         </div>
@@ -125,7 +125,7 @@
                 <li>Donate essentials: food, water, medicines, clothing.</li>
                 <li>Connect with verified NGOs working in disaster zones.</li>
                 <li>Collaborate with shelter providers and medical units.</li>
-                <li><span class="email">Email:</span> support@rescuengo.in</li>
+                <li><span class="email">Email:</span> <a href="mailto:support@rescuengo.in">support@rescuengo.in</a></li>
                 <li><span class="phone">Phone:</span> +91 90000 11122</li>
             </ul>
         </div>
@@ -137,7 +137,7 @@
                 <li>Access compensation claims and housing support.</li>
                 <li>Check for government relief camp locations.</li>
                 <li>Report missing persons or request relocation aid.</li>
-                <li><span class="email">Email:</span> reliefdesk@gov.in</li>
+                <li><span class="email">Email:</span> <a href="mailto:reliefdesk@gov.in">reliefdesk@gov.in</a></li>
                 <li><span class="phone">Phone:</span> +91 1800 123 4567</li>
             </ul>
         </div>
@@ -149,7 +149,7 @@
                 <li>24x7 mental health counseling post-disaster trauma.</li>
                 <li>Helpline for grief, anxiety, PTSD support.</li>
                 <li>Remote sessions by certified psychologists.</li>
-                <li><span class="email">Email:</span> care@mindrelief.org</li>
+                <li><span class="email">Email:</span> <a href="mailto:care@mindrelief.org">care@mindrelief.org</a></li>
                 <li><span class="phone">Phone:</span> +91 84444 77788</li>
             </ul>
         </div>
@@ -161,4 +161,5 @@
     </div>
 
 </body>
+
 </html>

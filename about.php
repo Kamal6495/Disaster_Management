@@ -222,7 +222,7 @@
             </div>
 
             <div class="developer-card">
-                <img src="dev2.jpeg" alt="Developer 2" class="dev-photo">
+                <img src="images/dev2.jpg" alt="Developer 2" class="dev-photo">
                 <h3>👩‍💻 Prashant Kumar Singh</h3>
                 <p><strong>Branch:</strong> Computer Science and Engineering</p>
                 <p><strong>College:</strong> MNNIT Allahabad</p>
@@ -238,7 +238,7 @@
             </div>
 
             <div class="developer-card">
-                <img src="dev3.jpg" alt="Developer 3" class="dev-photo">
+                <img src="images/dev3.jpg" alt="Developer 3" class="dev-photo">
                 <h3>👨‍💻 Shashank Tiwari</h3>
                 <p><strong>Branch:</strong> Computer Science and Engineering</p>
                 <p><strong>College:</strong> MNNIT Allahabad</p>

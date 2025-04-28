@@ -23,10 +23,14 @@
       margin-bottom: 2rem;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
 
     .section:hover {
       transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
     .card {
@@ -69,7 +73,7 @@
     <div class="row g-4">
       <!-- NDRF Info -->
       <div class="col-md-6">
-        <div class="section h-100">
+        <a href="https://www.ndrf.gov.in/en/about-us" target="_blank" class="section h-100">
           <h4 class="text-primary">🛡️ NDRF – National Disaster Response Force</h4>
           <p class="mt-3">The <strong>NDRF</strong> is India's national force for large-scale disaster response, rescue operations, and emergency services.</p>
           <ul>
@@ -77,12 +81,12 @@
             <li>Specialists in floods, quakes, and CBRN ops</li>
             <li>Nationwide deployment across zones</li>
           </ul>
-        </div>
+        </a>
       </div>
 
       <!-- SDRF Info -->
       <div class="col-md-6">
-        <div class="section h-100">
+        <a href="https://www.sdrfup.in/contact.php" target="_blank" class="section h-100">
           <h4 class="text-success">🚨 SDRF – State Disaster Response Force</h4>
           <p class="mt-3"><strong>SDRF</strong> is the first responder in state-specific emergencies. It works in coordination with local and national bodies.</p>
           <ul>
@@ -90,27 +94,11 @@
             <li>Operates in disaster-prone regions</li>
             <li>Supports evacuation, medical aid, logistics</li>
           </ul>
-        </div>
+        </a>
       </div>
     </div>
 
-    <!-- Relief Website Redirect -->
-    <div class="section text-center">
-      <h4 class="mb-4 text-danger">🔗 Visit Official Relief Agency Website</h4>
-      <form id="reliefRedirectForm">
-        <div class="row justify-content-center mb-3">
-          <div class="col-md-6">
-            <select class="form-select form-select-lg" id="reliefType" required>
-              <option value="">-- Select Relief Force --</option>
-              <option value="https://ndrf.gov.in/">NDRF (National Disaster Response Force)</option>
-              <option value="https://sdma.uk.gov.in/pages/display/84-sdrf">SDRF (State Disaster Response Force)</option>
-            </select>
-          </div>
-        </div>
-        <button type="button" id="visitReliefBtn" class="btn btn-danger btn-lg mt-2 d-none">🌐 Visit Website</button>
-      </form>
-    </div>
-  </div>
+
 
   <script>
     document.getElementById("reliefType").addEventListener("change", function () {

@@ -88,33 +88,7 @@
 
 <hr>
 
-<div class="container">
-    <!-- Disaster Cards -->
-    <a href="map_tsunami.php" class="card tsunami">
-        <h2>Tsunami Heatmap</h2>
-        <p>View global tsunami impact over time...</p>
-    </a>
-    <a href="map_earthquake.php" class="card earthquake">
-        <h2>Earthquake Zones</h2>
-        <p>Explore seismic activity history worldwide...</p>
-    </a>
-    <a href="map_flood.php" class="card flood">
-        <h2>Flood-Prone Regions</h2>
-        <p>Flood impact and rainfall-based flood data...</p>
-    </a>
-    <a href="map_wildfire.php" class="card wildfire">
-        <h2>Wildfire Intensity Map</h2>
-        <p>Analyze fire-prone forests and urban interface...</p>
-    </a>
-    <a href="map_hurricane.php" class="card hurricane">
-        <h2>Hurricane Tracks</h2>
-        <p>Interactive maps showing hurricane tracks...</p>
-    </a>
-    <a href="map_volcano.php" class="card volcano">
-        <h2>Volcano Eruption History</h2>
-        <p>Global volcanic activity displayed with eruption frequency...</p>
-    </a>
-</div>
+
 
 <div class="footer">
     &copy; 2025 Global Disaster Data Hub | Built with passion for preparedness
