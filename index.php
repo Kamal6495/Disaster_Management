@@ -131,73 +131,102 @@ $google_maps_api_key = GOOGLE_MAPS_API_KEY; // Ensure this is defined in config.
 
 
 
-        function showSubscribePopup() {
-            document.getElementById("subscribePopup").classList.remove("d-none");
+        // Show Subscribe Popup
+function showSubscribePopup() {
+    const popup = document.getElementById("subscribePopup");
+    popup.classList.remove("d-none");
+
+    // Add outside click listener
+    setTimeout(() => { // slight delay to avoid immediately triggering on opening
+        window.addEventListener("click", hideSubscribePopupOnOutsideClick);
+    }, 100);
+}
+
+// Hide Subscribe Popup when clicking outside
+function hideSubscribePopupOnOutsideClick(event) {
+    const popup = document.getElementById("subscribePopup");
+
+    // If popup is open and click is outside the popup
+    if (!popup.classList.contains("d-none") && !popup.contains(event.target)) {
+        popup.classList.add("d-none");
+
+        // Also reset OTP section when hiding
+        document.getElementById("otpSection").classList.add("d-none");
+
+        // Remove the outside click listener after hiding
+        window.removeEventListener("click", hideSubscribePopupOnOutsideClick);
+    }
+}
+
+// Send Subscription OTP
+function sendSubscriptionOtp() {
+    const email = document.getElementById("subEmail").value.trim();
+    const mobile = document.getElementById("subMobile").value.trim();
+
+    if (!email || !mobile) {
+        alert("Please enter both email and mobile number.");
+        return;
+    }
+
+    $.post('ajax/otp-handler.php', {
+        send_otp: true,
+        email: email,
+        mobile: mobile
+    }, function(res) {
+        let data;
+        try {
+            data = JSON.parse(res);
+        } catch (e) {
+            alert("Unexpected response from server.");
+            console.error(res);
+            return;
         }
 
-        function sendSubscriptionOtp() {
-            const email = document.getElementById("subEmail").value.trim();
-            const mobile = document.getElementById("subMobile").value.trim();
+        if (data.status === "OTP_SENT") {
+            alert("✅ OTP sent to Email and Mobile.");
+            document.getElementById("otpSection").classList.remove("d-none");
+        } else {
+            alert("❌ Error sending OTP: " + (data.message || ""));
+        }
+    });
+}
 
-            if (!email || !mobile) {
-                alert("Please enter both email and mobile number.");
-                return;
-            }
+// Verify Subscription OTP
+function verifySubscriptionOtp() {
+    const email = document.getElementById("subEmail").value.trim();
+    const otp = document.getElementById("subOtp").value.trim();
 
-            $.post('ajax/otp-handler.php', {
-                send_otp: true,
-                email: email,
-                mobile: mobile
-            }, function(res) {
-                let data;
-                try {
-                    data = JSON.parse(res);
-                } catch (e) {
-                    alert("Unexpected response from server.");
-                    console.error(res);
-                    return;
-                }
+    if (!email || !otp) {
+        alert("Please enter email and OTP.");
+        return;
+    }
 
-                if (data.status === "OTP_SENT") {
-                    alert("✅ OTP sent to Email and Mobile.");
-                    document.getElementById("otpSection").classList.remove("d-none");
-                } else {
-                    alert("❌ Error sending OTP: " + (data.message || ""));
-                }
-            });
+    $.post('ajax/otp-handler.php', {
+        verify_otp: true,
+        email: email,
+        otp: otp
+    }, function(res) {
+        let data;
+        try {
+            data = JSON.parse(res);
+        } catch (e) {
+            alert("Unexpected response from server.");
+            console.error(res);
+            return;
         }
 
-        function verifySubscriptionOtp() {
-            const email = document.getElementById("subEmail").value.trim();
-            const otp = document.getElementById("subOtp").value.trim();
+        if (data.status === "OTP_VERIFIED") {
+            document.getElementById("subscribePopup").classList.add("d-none");
+            document.getElementById("thankYouPopup").classList.remove("d-none");
 
-            if (!email || !otp) {
-                alert("Please enter email and OTP.");
-                return;
-            }
-
-            $.post('ajax/otp-handler.php', {
-                verify_otp: true,
-                email: email,
-                otp: otp
-            }, function(res) {
-                let data;
-                try {
-                    data = JSON.parse(res);
-                } catch (e) {
-                    alert("Unexpected response from server.");
-                    console.error(res);
-                    return;
-                }
-
-                if (data.status === "OTP_VERIFIED") {
-                    document.getElementById("subscribePopup").classList.add("d-none");
-                    document.getElementById("thankYouPopup").classList.remove("d-none");
-                } else {
-                    alert("❌ Invalid OTP");
-                }
-            });
+            // Cleanup listener
+            window.removeEventListener("click", hideSubscribePopupOnOutsideClick);
+        } else {
+            alert("❌ Invalid OTP");
         }
+    });
+}
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

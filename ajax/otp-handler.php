@@ -13,11 +13,13 @@ if ($conn->connect_error) {
     die(json_encode(["status" => "ERROR", "message" => "DB connection failed."]));
 }
 
-function generateOTP() {
+function generateOTP()
+{
     return rand(100000, 999999);
 }
 
-function sendEmailOTP($to, $otp) {
+function sendEmailOTP($to, $otp)
+{
     global $app_pwd;
 
     $mail = new PHPMailer(true);
@@ -42,7 +44,8 @@ function sendEmailOTP($to, $otp) {
     }
 }
 
-function sendSMSOTP($to, $otp) {
+function sendSMSOTP($to, $otp)
+{
     global $twilio_sid, $twilio_token, $twilio_number;
 
     // Ensure E.164 format
@@ -70,6 +73,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['send_otp'])) {
         $email  = $_POST['email'];
         $mobile = $_POST['mobile'];
+
+        // Always ensure +91 prefix before storing
+        $mobile = preg_replace('/[^0-9]/', '', $mobile); // remove non-digits
+        if (strlen($mobile) == 10) {
+            $mobile = '+91' . $mobile;
+        } elseif (!preg_match('/^\+/', $mobile)) {
+            $mobile = '+91' . ltrim($mobile, '0');
+        }
+
         $otp    = generateOTP();
 
         // Store or update user entry
@@ -112,4 +124,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-?>
